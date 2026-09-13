@@ -45,4 +45,4 @@ Abaixo está o acompanhamento do meu progresso no currículo gerado:
 2. Cada pasta listada acima conterá meus resumos (Markdown), scripts e provas de conceito (PoCs) de vulnerabilidades estudadas em ambientes de laboratório.
 
 ---
-*Desenvolvido com foco e disciplina por Fernando Vinicius (Sol).*
+*Desenvolvido com foco e disciplina por Fernando Vinicius.*
